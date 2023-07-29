@@ -30,7 +30,8 @@
     },
     "plugins": [
       "expo-router",
-      ["expo-camera",{"cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."}]
+      ["expo-camera",{"cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."}],
+      ["expo-image-picker",{"photosPermission": "Allow $(PRODUCT_NAME) to access your Gallery."}]
     ]
   }
 }
