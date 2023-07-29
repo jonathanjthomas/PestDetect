@@ -3,14 +3,17 @@ import React from "react";
 import { Home, Globe } from "lucide-react-native";
 import { router } from "expo-router";
 import { useDetails } from "./Initiater.js"
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 
 const Navbar = () => {
     const ProceedHome = () => router.push("/");
     const { ToggleInitiate } = useDetails();
+
+    const insets = useSafeAreaInsets();
     
     return (
-        <View className="fixed">
-            <View className="w-full h-24 bg-sky-500 pt-10 flex flex-row justify-between  px-4 ">
+            <View style={{paddingTop: insets.top+15}} className="w-full h-fit bg-sky-500 flex flex-row justify-between px-4 pb-5 ">
                 <Pressable onPress={ProceedHome} className="flex flex-row items-center">
                     <Home color="white" />
                     <Text className="text-white" > Home </Text>
@@ -20,7 +23,6 @@ const Navbar = () => {
                     <Globe color="white" />
                 </Pressable>
             </View>
-        </View>
 
     );
 };
