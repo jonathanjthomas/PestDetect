@@ -4,14 +4,17 @@ import { create } from 'zustand'
 import { Picker } from "@react-native-picker/picker";
 import { storeData } from "../utils/Storage";
 
+
 export const useDetails = create(set => ({
     Initiate: true,
     country: "Select Country",
     AllowCancel: false,
+    Intro: true,
     setCountry: (country) => set({ country }),
     ToggleInitiate: () => set(state => ({ Initiate: !state.Initiate })),
     SetInitiate: (Initiate) => set({ Initiate }),
-    SetAllowCancel: (AllowCancel) => set({ AllowCancel })
+    SetAllowCancel: (AllowCancel) => set({ AllowCancel }),
+    setIntroduction: (Intro) => set({ Intro })
 }))
 
 const Countries = [ 
@@ -261,9 +264,10 @@ const Countries = [
   ]
 
 const Initiater = () => {
-    const { Initiate , ToggleInitiate , country , setCountry , AllowCancel , SetAllowCancel } = useDetails()
+    const { Initiate , ToggleInitiate , country , setCountry , AllowCancel , SetAllowCancel ,Intro } = useDetails()
     return (
-        <Modal
+        <>
+        {!Intro && <Modal
             animationType="slide"
             transparent={true}
             visible={Initiate}
@@ -272,6 +276,7 @@ const Initiater = () => {
                 ToggleInitiate()
             }}
         >
+            
             <View className="flex-1 justify-center items-center bg-white/50 mt-28">
                 <View className="w-80 h-1/2 bg-white rounded-lg shadow-lg border border-sky-500 opacity-100">
                     <View className="flex-1 justify-center items-center">
@@ -296,7 +301,8 @@ const Initiater = () => {
                 </View>
             </View>
 
-        </Modal>
+        </Modal>}
+        </>
     );
 };
 export default Initiater;
