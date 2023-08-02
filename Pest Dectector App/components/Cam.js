@@ -65,6 +65,10 @@ const Cam = () => {
                 setFinalImage({ uri: result.uri, width: result.width, height: result.height });
             })();
         }
+
+        else if(!Image){
+            setPause(false);
+        }
     }, [Image]);
 
 
@@ -107,6 +111,8 @@ const Cam = () => {
 
         if (result.assets && result.assets[0] && result.assets[0].uri) {
             setImage(result.assets[0].uri);
+        } else {
+            setPause(false);
         }
     };
 
@@ -196,7 +202,7 @@ const Cam = () => {
             
              {/* Retake Button */}
              {
-                    ((CameraReady && Pause)||(FinalImage && !CameraReady )) && <View className=" w-full h-20 flex justify-start items-center pb-4 mt-5">
+                    ((FinalImage  )) && <View className=" w-full h-20 flex justify-start items-center pb-4 mt-5">
                         
                         <Pressable className="flex flex-row justify-center items-center bg-purple-500 p-2 rounded-md mt-4 w-32" onPress={() => { setPause(false); setFinalImage(null) }}>
                             <Text className="text-white" > Retake </Text>
@@ -228,7 +234,7 @@ const Cam = () => {
                 {/* Select from Gallery */}
                 <View className="w-20 flex justify-center items-center">
                     <Pressable onPress={pickImage}>
-                        <GalleryHorizontalEnd color="black" size={50} />
+                        <GalleryHorizontalEnd  color="black" size={50} />
                     </Pressable>
                     <Text className="mt-4 text-center">Select from Gallery</Text>
                 </View>
@@ -236,12 +242,14 @@ const Cam = () => {
 
             {/* Image Editor */}
             <Modal visible={Image ? true : false} animationType="slide">
-                <ImageEditor visible={true} imageUri={Image} onCloseEditor={() => { setImage(null)}}
+                <Text className="text-xl bg-gray-700 text-white h-12 flex justify-center text-center py-2"> Crop The Image </Text>
+                <ImageEditor visible={true} imageUri={Image} onCloseEditor={() => {  if(!Image) setPause(false); setImage(null);}}
                     onEditingComplete={(result) => {
                         setImage(null);
                         setFinalImage({ uri: result.uri, width: result.width, height: result.height });
                         setflashMode(false);
                     }}
+                    onEditingCanceled={() => { setFinalImage(null) }}
                     fixedCropAspectRatio={1}
                     lockAspectRatio={true}
                     minimumCropDimensions={{ width: 224, height: 224 }}
