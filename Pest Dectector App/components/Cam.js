@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect } from 'react';
 import Slider from '@react-native-community/slider';
-import { Aperture, Flashlight, GalleryHorizontalEnd } from "lucide-react-native";
+import { Aperture, Flashlight, GalleryHorizontalEnd , ChevronRight , Repeat2 } from "lucide-react-native";
 import { create } from 'zustand'
 import InfoDisplayer from "./InfoDisplayer";
 import * as ImagePicker from 'expo-image-picker';
@@ -151,15 +151,7 @@ const Cam = () => {
                     </View>
                 }
 
-                {/* Retake Button */}
-                {
-                    ((CameraReady && Pause)||(FinalImage && !CameraReady && permission?.status === 'granted' )) && <View className="absolute z-20 w-80 h-80 flex justify-end items-center pb-4 ">
-                        <Text className="text-white text-center">Not statisfied with the Image?</Text>
-                        <Pressable className="flex justify-center items-center bg-sky-500 p-2 rounded-md mt-4 w-32" onPress={() => { setPause(false); }}>
-                            <Text className="text-white" > Retake </Text>
-                        </Pressable>
-                    </View>
-                }
+                
 
                 {/* Image Preview */}
                 {
@@ -169,21 +161,10 @@ const Cam = () => {
                     </View>
                 }
 
-                {/* Proceed Button */}
-                {
-                    Pause && FinalImage && <View className="absolute z-10 w-full h-96 bg-black/50  flex justify-start items-center pb-4 ">
-                        <View className="w-full h-fit bg-black/25 flex justify-center items-center pb-4">
-                        <Pressable className="flex justify-center items-center bg-green-500 p-2 rounded-md mt-4 w-32" onPress={classifyImage}>
-                            <Text className="text-white" > Proceed </Text>
-                        </Pressable>
-                        </View>
-                    </View>
-                }
-
             </View>
 
             {/* Zoom Slider */}
-            <View className="w-80 flex flex-row justify-center items-center">
+            {!(Pause && FinalImage) && <View className="w-80 flex flex-row justify-center items-center">
                 <Text className="">Zoom: </Text>
                 <View className="w-60 h-20 flex flex-row justify-center items-center">
                     <Slider
@@ -198,10 +179,35 @@ const Cam = () => {
                         disabled={permission?.status !== 'granted' || Pause}
                     />
                 </View>
-            </View>
+            </View>}
+
+           
+
+            {/* Proceed Button */}
+            {
+                    Pause && FinalImage && <View className="w-full h-20 flex justify-center items-center pb-4 mt-5">
+                        <Pressable className="flex flex-row justify-center items-center bg-green-500 p-2 rounded-md mt-4 w-48" onPress={classifyImage}>
+                            <Text className="text-white text-lg" > Proceed </Text>
+                            <ChevronRight className="ml-2" color="white" size={20} />
+                        </Pressable>
+                        </View>
+                    
+                }
+            
+             {/* Retake Button */}
+             {
+                    ((CameraReady && Pause)||(FinalImage && !CameraReady )) && <View className=" w-full h-20 flex justify-start items-center pb-4 mt-5">
+                        
+                        <Pressable className="flex flex-row justify-center items-center bg-purple-500 p-2 rounded-md mt-4 w-32" onPress={() => { setPause(false); setFinalImage(null) }}>
+                            <Text className="text-white" > Retake </Text>
+                            <Repeat2 className="ml-2" color="white" size={15} />
+                        </Pressable>
+                        <Text className="text-black text-center mt-2">Not satisfied with the Image?</Text>
+                    </View>
+                }
 
             {/* Camera Controls */}
-            <View className="w-96 h-20 flex flex-row justify-evenly items-center mt-5">
+            {!(Pause && FinalImage) && <View className="w-96 h-20 flex flex-row justify-evenly items-center mt-5">
 
                 {/* Flashlight */}
                 <View className="w-20 flex justify-center items-center">
@@ -226,7 +232,7 @@ const Cam = () => {
                     </Pressable>
                     <Text className="mt-4 text-center">Select from Gallery</Text>
                 </View>
-            </View>
+            </View>}
 
             {/* Image Editor */}
             <Modal visible={Image ? true : false} animationType="slide">
