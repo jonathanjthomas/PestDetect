@@ -242,7 +242,7 @@ const Cam = () => {
 
             {/* Image Editor */}
             <Modal visible={Image ? true : false} animationType="slide">
-                <Text className="text-xl bg-gray-700 text-white h-12 flex justify-center text-center py-2"> Crop The Image </Text>
+                <Text className="text-xl bg-gray-700 text-white h-12 flex justify-center text-center py-2"> Crop image to fit one pest </Text>
                 <ImageEditor visible={true} imageUri={Image} onCloseEditor={() => {  if(!Image) setPause(false); setImage(null);}}
                     onEditingComplete={(result) => {
                         setImage(null);

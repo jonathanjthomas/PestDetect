@@ -18,7 +18,7 @@ const index = () => {
     });
   }, []);
 
-  const mode = "Prod"
+  const mode = "Debug"
   return (
     <View className="flex-1 items-center ">
       {Intro && <Introduction showIntro={Intro} setIntroduction={setIntroduction}  />}
