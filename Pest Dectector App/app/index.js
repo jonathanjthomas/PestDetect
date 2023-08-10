@@ -4,9 +4,12 @@ import Intiater,{useDetails} from "../components/Initiater"
 import Actions from "../components/Actions";
 import { getData , removeData } from "../utils/Storage";
 import Introduction from "../components/Introduction";
+import { Pest_Info } from "../components/Cam";
 
 const index = () => {
   const { Initiate, SetInitiate , SetAllowCancel ,setCountry , Intro , setIntroduction } = useDetails()
+
+  const {setPest_Name,setStatus} = Pest_Info();
 
   useEffect(() => {
     getData("Country").then((res) => {
@@ -17,6 +20,10 @@ const index = () => {
         setIntroduction(false)
       }
     });
+
+    setPest_Name(null)
+    setStatus(null)
+
   }, []);
 
   const mode = "Prod"

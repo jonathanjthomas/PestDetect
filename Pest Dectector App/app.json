@@ -1,14 +1,15 @@
 {
   "expo": {
-    "name": "PestDetector",
-    "slug": "PestDetector",
-    "scheme": "pestdetector",
+    "name": "Pest Detect",
+    "slug": "PestDetect",
+    "description": "An app that detects pests in crops and gives the user information about the pest and how to control it.",
+    "scheme": "pestdetect",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/Nsplash.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,10 +24,6 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
-    },
-    "web": {
-      "bundler": "metro",
-      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-router",

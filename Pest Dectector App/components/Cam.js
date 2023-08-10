@@ -3,13 +3,15 @@ import React, { useRef } from "react";
 import { Camera, CameraType } from 'expo-camera';
 import { useEffect } from 'react';
 import Slider from '@react-native-community/slider';
-import { Aperture, Flashlight, GalleryHorizontalEnd , ChevronRight , Repeat2 } from "lucide-react-native";
+import { Aperture, Flashlight, GalleryHorizontalEnd, ChevronRight, Repeat2 } from "lucide-react-native";
 import { create } from 'zustand'
 import InfoDisplayer from "./InfoDisplayer";
 import * as ImagePicker from 'expo-image-picker';
 import { ImageEditor } from "expo-image-editor";
 import { Image as VIM } from 'expo-image';
 import ImageHelper from "../utils/ImageHelper";
+import axios from "axios";
+import { router } from 'expo-router';
 
 
 // State Management for Camera
@@ -32,6 +34,12 @@ export const useCamera = create((set) => ({
     setFinalImage: (FinalImage) => set({ FinalImage }),
 }));
 
+export const Pest_Info = create((set) => ({
+    Pest_Name: null,
+    setPest_Name: (Pest_Name) => set({ Pest_Name }),
+    Status: null,
+    setStatus: (Status) => set({ Status }),
+}));
 
 const Cam = () => {
 
@@ -40,6 +48,10 @@ const Cam = () => {
 
     // Camera States
     const { CameraReady, setCameraReady, Pause, setPause, Zoom, setZoom, PicLoading, setPicLoading, pictureSize, setPictureSize, flashMode, setflashMode, Image, setImage, FinalImage, setFinalImage } = useCamera();
+
+    // Pest Info States
+
+    const PestInfo = Pest_Info((state) => state);
 
     // Camera Ref
     let camera = useRef(null);
@@ -61,12 +73,13 @@ const Cam = () => {
                     uri: FinalImage.uri,
                     width: FinalImage.width,
                     height: FinalImage.height,
-                }, 224);
-                setFinalImage({ uri: result.uri, width: result.width, height: result.height });
+                }, 256);
+
+                setFinalImage({ uri: result.uri, width: result.width, height: result.height, base64: result.base64 });
             })();
         }
 
-        else if(!Image){
+        else if (!Image) {
             setPause(false);
         }
     }, [Image]);
@@ -117,8 +130,25 @@ const Cam = () => {
     };
 
     // Proceed with Image classification
-    const classifyImage = () => {
-        console.log("Classify Image");
+    const classifyImage = async () => {
+
+        try{
+
+            PestInfo.setStatus("Loading");
+            const result = await axios.post("http://159.122.175.197:32000/process_image", { base64_image: FinalImage.base64 })
+           
+            PestInfo.setPest_Name(result.data.Pest);
+            PestInfo.setStatus("Done");
+
+            console.log(result.data.Pest);
+            setFinalImage(null);
+            router.push("/pestbot");
+        } catch(err){
+            console.log(err);
+            router.replace("/")
+        }
+
+
     }
 
 
@@ -148,7 +178,7 @@ const Cam = () => {
                     <Text className="text-white text-center pt-2">Want to use camera?</Text>
                     <Text className="text-white text-center">Kindly allow access to Camera</Text>
                 </View>
-                    }
+                }
 
                 {/* Loading Indicator */}
                 {
@@ -157,7 +187,7 @@ const Cam = () => {
                     </View>
                 }
 
-                
+
 
                 {/* Image Preview */}
                 {
@@ -187,30 +217,30 @@ const Cam = () => {
                 </View>
             </View>}
 
-           
+
 
             {/* Proceed Button */}
             {
-                    Pause && FinalImage && <View className="w-full h-20 flex justify-center items-center pb-4 mt-5">
-                        <Pressable className="flex flex-row justify-center items-center bg-green-500 p-2 rounded-md mt-4 w-48" onPress={classifyImage}>
-                            <Text className="text-white text-lg" > Proceed </Text>
-                            <ChevronRight className="ml-2" color="white" size={20} />
-                        </Pressable>
-                        </View>
-                    
-                }
-            
-             {/* Retake Button */}
-             {
-                    ((FinalImage  )) && <View className=" w-full h-20 flex justify-start items-center pb-4 mt-5">
-                        
-                        <Pressable className="flex flex-row justify-center items-center bg-purple-500 p-2 rounded-md mt-4 w-32" onPress={() => { setPause(false); setFinalImage(null) }}>
-                            <Text className="text-white" > Retake </Text>
-                            <Repeat2 className="ml-2" color="white" size={15} />
-                        </Pressable>
-                        <Text className="text-black text-center mt-2">Not satisfied with the Image?</Text>
-                    </View>
-                }
+                Pause && FinalImage && <View className="w-full h-20 flex justify-center items-center pb-4 mt-5">
+                    <Pressable className="flex flex-row justify-center items-center bg-green-500 p-2 rounded-md mt-4 w-48" onPress={classifyImage}>
+                        <Text className="text-white text-lg" > Proceed </Text>
+                        <ChevronRight className="ml-2" color="white" size={20} />
+                    </Pressable>
+                </View>
+
+            }
+
+            {/* Retake Button */}
+            {
+                ((FinalImage)) && <View className=" w-full h-20 flex justify-start items-center pb-4 mt-5">
+
+                    <Pressable className="flex flex-row justify-center items-center bg-purple-500 p-2 rounded-md mt-4 w-32" onPress={() => { setPause(false); setFinalImage(null) }}>
+                        <Text className="text-white" > Retake </Text>
+                        <Repeat2 className="ml-2" color="white" size={15} />
+                    </Pressable>
+                    <Text className="text-black text-center mt-2">Not satisfied with the Image?</Text>
+                </View>
+            }
 
             {/* Camera Controls */}
             {!(Pause && FinalImage) && <View className="w-96 h-20 flex flex-row justify-evenly items-center mt-5">
@@ -234,7 +264,7 @@ const Cam = () => {
                 {/* Select from Gallery */}
                 <View className="w-20 flex justify-center items-center">
                     <Pressable onPress={pickImage}>
-                        <GalleryHorizontalEnd  color="black" size={50} />
+                        <GalleryHorizontalEnd color="black" size={50} />
                     </Pressable>
                     <Text className="mt-4 text-center">Select from Gallery</Text>
                 </View>
@@ -243,7 +273,7 @@ const Cam = () => {
             {/* Image Editor */}
             <Modal visible={Image ? true : false} animationType="slide">
                 <Text className="text-xl bg-gray-700 text-white h-12 flex justify-center text-center py-2"> Crop image to fit one pest </Text>
-                <ImageEditor visible={true} imageUri={Image} onCloseEditor={() => {  if(!Image) setPause(false); setImage(null);}}
+                <ImageEditor visible={true} imageUri={Image} onCloseEditor={() => { if (!Image) setPause(false); setImage(null); }}
                     onEditingComplete={(result) => {
                         setImage(null);
                         setFinalImage({ uri: result.uri, width: result.width, height: result.height });
@@ -258,6 +288,15 @@ const Cam = () => {
                     className="flex-1"
                 />
             </Modal>
+
+            {/* Loader */}
+            <Modal visible={PestInfo.Status === "Loading"} animationType="slide">
+                <View className="flex-1 flex justify-center items-center">
+                    <ActivityIndicator className="text-xl" size="large" color="#0ea5e9" />
+                    <Text className="text-xl mt-5">Identifying the Pest, Hold on ... </Text>
+                </View>
+            </Modal>
+
 
         </View>
     );

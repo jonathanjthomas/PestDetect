@@ -2,10 +2,10 @@ import { View } from "react-native";
 import React from "react";
 import Chatarea from "../components/Chatarea";
 
-const pestbot = () => {
+const pestbot = () => {  
   return (
     <View>
-      <Chatarea showIntro={true} />
+      <Chatarea showIntro={true} count={0}/>
     </View>
   );
 };
