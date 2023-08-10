@@ -14,11 +14,12 @@ const index = () => {
         setCountry(res);
         SetInitiate(false)
         SetAllowCancel(true)
+        setIntroduction(false)
       }
     });
   }, []);
 
-  const mode = "Debug"
+  const mode = "Prod"
   return (
     <View className="flex-1 items-center ">
       {Intro && <Introduction showIntro={Intro} setIntroduction={setIntroduction}  />}

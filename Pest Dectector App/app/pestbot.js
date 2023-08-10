@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
+import Chatarea from "../components/Chatarea";
 
 const pestbot = () => {
   return (
     <View>
-      <Text>pestbot</Text>
+      <Chatarea showIntro={true} />
     </View>
   );
 };
