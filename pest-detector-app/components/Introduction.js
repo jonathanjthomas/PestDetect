@@ -4,8 +4,8 @@ import { useDetails } from "./Initiater";
 import { Image } from "expo-image";
 
 
-const Introduction = ({showIntro, setIntroduction }) => {
-    
+const Introduction = ({ showIntro, setIntroduction }) => {
+
 
     const [SliderState, setSliderState] = React.useState({ currentPage: 0 });
     const setSliderPage = (event) => {
@@ -33,7 +33,10 @@ const Introduction = ({showIntro, setIntroduction }) => {
         >
             <View className="flex-1 items-center justify-center bg-white bg-opacity-50">
                 <View className="bg-white w-80 h-full rounded-lg">
-                    <Text className="text-2xl my-5 text-center">Introduction To App</Text>
+                    <View className="flex flex-row justify-center items-center p-3">
+                        <Image source={require("../assets/logo.png")} style={{ width: 100, height: 100 }} />
+                        <Text className="ml-5 text-xl font-semibold">Pest Detect</Text>
+                    </View>
                     <ScrollView horizontal={true} scrollEventThrottle={16} pagingEnabled={true} showsHorizontalScrollIndicator={false} onScroll={setSliderPage} className="">
                         <View className="w-80 p-3 h-fit justify-center items-center" >
                             <View className="w-[95%] h-48 ">
@@ -44,14 +47,14 @@ const Introduction = ({showIntro, setIntroduction }) => {
                         </View>
                         <View className="w-80 h-fit justify-center items-center p-3" >
                             <View className="w-[95%] h-[70%] ">
-                                <Image style={{ width: "100%", height: "100%" , contentFit:"contain" }} className="object-contain" source={"https://res.cloudinary.com/cybertech13/image/upload/v1691602944/Pest%20Dectector/WhatsApp_Image_2023-08-09_at_18.43.21_xyyldu.jpg"} />
+                                <Image style={{ width: "100%", height: "100%", contentFit: "contain" }} className="object-contain" source={"https://res.cloudinary.com/cybertech13/image/upload/v1691602944/Pest%20Dectector/WhatsApp_Image_2023-08-09_at_18.43.21_xyyldu.jpg"} />
                             </View>
                             <Text className="mt-5 text-xl font-semibold">Pest Snap</Text>
                             <Text className="mt-5 text-center">This module helps you with taking snaps of the storage pest using the phone camera and uses AI technology to analyze the pest after which it directs you to pest bot which provides details regarding the pests.</Text>
                         </View>
                         <View className="w-80 h-fit justify-center items-center p-3" >
                             <View className="w-[95%] h-[70%]">
-                                <Image style={{ width: "100px", height: "100%" , contentFit:"contain"}} source={"https://res.cloudinary.com/cybertech13/image/upload/v1691602944/Pest%20Dectector/Screenshot_2023-08-09_213940_jz86gd.png"} />
+                                <Image style={{ width: "100px", height: "100%", contentFit: "contain" }} source={"https://res.cloudinary.com/cybertech13/image/upload/v1691602944/Pest%20Dectector/Screenshot_2023-08-09_213940_jz86gd.png"} />
                             </View>
                             <Text className="mt-5 text-xl font-semibold">Pest Bot</Text>
                             <Text className="mt-5 text-center">This module makes use of an AI chat bot to help you with identifying and providing information regarding pests.</Text>

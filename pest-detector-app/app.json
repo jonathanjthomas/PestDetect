@@ -9,7 +9,7 @@
     "icon": "./assets/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/Nsplash.jpg",
+      "image": "./assets/Nsplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,12 +23,35 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.siddh13.PestDetect"
     },
     "plugins": [
       "expo-router",
-      ["expo-camera",{"cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."}],
-      ["expo-image-picker",{"photosPermission": "Allow $(PRODUCT_NAME) to access your Gallery."}]
-    ]
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your Gallery."
+        }
+      ]
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "dbfb9461-ac74-44d5-bb59-fdce4d70d271"
+      }
+    }
   }
 }
