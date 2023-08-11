@@ -53,11 +53,10 @@ _INSTRUCTIONS: Included here is a list of commonly used IBM AI services. Remove 
 
 - [Watson Machine Learning](https://github.com/jonathanjthomas/PestDetect/blob/1bf09b14c0ea3b37424520a868939aee46b936b6/backend/Flask_Backend/app.py) - The Watson Machine Learning service is used to deploy the Image Classification Machine Learning model that used in the backend service of the app. The model is trained on a dataset of images of several pests. The model is then deployed to the IBM Cloud Object Storage. 
 - [Watson Assistant](https://github.com/jonathanjthomas/PestDetect/blob/93662c062d354c5c05cca92d9e54ff3ba745cf1e/backend/Nignx_Backend/Web/index.html) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
-- [Watson Studio] - The Image classification model is uploaded as an assest and deployed using the Watson Studio Deployments service on a Extra small 1 CPU and 2 GB RAM Instance.
+- Watson Studio - The Image classification model is uploaded as an assest and deployed using the Watson Studio Deployments service on a Extra small 1 CPU and 2 GB RAM Instance.
 
 ### Other IBM technology used
 
-<<<<<<< HEAD
 Additionally, This project uses:
 1. IBM Cloud Kubernetes Service to deploy the Flask Backend and the Nginx Server onto pods which exposed using the NodePort service.
 2. IBM Cloud Object Storage stores the Machine Learning Model on the Watson Studio
@@ -68,9 +67,6 @@ The Depoyment of the Backend service is done using the IBM Cloud CLI, Docker and
 1. IBM Cloud CLI was used to login into docker and kubernetes.
 2. Docker was used to build the docker image of the Flask Backend and the Nginx Server.
 3. Kubernetes was used to deploy the docker image onto the IBM Cloud Kubernetes Service.
-=======
-INSTRUCTIONS: List any other IBM technology used in your solution and describe how each component was used. If you can provide links to/details on exactly where these were used in your code, that would help the judges review your submission.
->>>>>>> 93662c062d354c5c05cca92d9e54ff3ba745cf1e
 
 ### Solution architecture
 
