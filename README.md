@@ -49,8 +49,6 @@ More detail is available in our [description document](./docs/DESCRIPTION.md).
 
 ### IBM AI service(s) used
 
-_INSTRUCTIONS: Included here is a list of commonly used IBM AI services. Remove any services you did not use, or add others from the linked catalog not already listed here. Leave only those included in your solution code. Provide details on where and how you used each IBM AI service to help judges review your implementation. Remove these instructions._
-
 - [Watson Machine Learning](https://github.com/jonathanjthomas/PestDetect/blob/1bf09b14c0ea3b37424520a868939aee46b936b6/backend/Flask_Backend/app.py) - The Watson Machine Learning service is used to deploy the Image Classification Machine Learning model that used in the backend service of the app. The model is trained on a dataset of images of several pests. The model is then deployed to the IBM Cloud Object Storage. 
 - [Watson Assistant](https://github.com/jonathanjthomas/PestDetect/blob/93662c062d354c5c05cca92d9e54ff3ba745cf1e/backend/Nignx_Backend/Web/index.html) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
 - Watson Studio - The Image classification model is uploaded as an assest and deployed using the Watson Studio Deployments service on a Extra small 1 CPU and 2 GB RAM Instance.
