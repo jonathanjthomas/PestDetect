@@ -60,7 +60,7 @@ _INSTRUCTIONS: Included here is a list of commonly used IBM AI services. Remove 
 
 ### Other IBM technology used
 
-Additionally, This project uses the IBM Cloud Kubernetes Service to deploy the Backend service of the app, IBM Cloud Object Storage to store the Machine Learning Model, and IBM Contair Registry to store the Docker Image of the Backend service.
+INSTRUCTIONS: List any other IBM technology used in your solution and describe how each component was used. If you can provide links to/details on exactly where these were used in your code, that would help the judges review your submission.
 
 ### Solution architecture
 
@@ -68,10 +68,13 @@ Diagram and step-by-step description of the flow of our solution:
 
 ![Video transcription/translaftion app](https://github.com/jonathanjthomas/PestDetect/blob/d3513101ff47e6a85bd1bfc7dd9553be37cf3012/images/Model_Architecture.jpg)
 
-1. The user navigates to the site and uploads a video file.
-2. Watson Speech to Text processes the audio and extracts the text.
-3. Watson Translation (optionally) can translate the text to the desired language.
-4. The app stores the translated text as a document within Object Storage.
+1. The user navigates to the PestSnap module of the app.
+2. User uploads the image through the PestSnap module and it is sent to a Flask web app that is deployed to the IBM Kubernetes service.
+3. After preprocessing the image is sent to the IBM Machine Learning for inferencing.
+4. The Machine learning model prediction is received by the PestBot module.
+5. The received prediction is sent to the NGINX server that is deployed to the IBM Kubernetes service by the app.
+6. The IBM Watson Assistant web chat lists the sustainable management practices for the identified pest.
+7. The Watson Assistant chatbot is integrated with OpenAi's gpt-3.5-turbo LLM using a custom extension to answer a wide variety of follow-up questions from the farmer.
 
 ## Presentation materials
 
@@ -85,11 +88,10 @@ _INSTRUCTIONS: The following deliverables should be officially posted to your My
 
 The project currently does the following things.
 
-- Feature 1
-- Feature 2
-- Feature 3
+- PestSnap - Snap or use an image from gallery to identify a stored grain pest and receive targeted sustainable prevention and management techniques 
+- PestBot - Chat with Pest Bot to get more information about stored grain pests
 
-In the future we plan to...
+In the future we plan to increase accessibility by adding more languages, integrating a voice reader to support illiterate farmers, and making region specific predictions and recommendations to the farmers
 
 See below for our proposed schedule on next steps after Call for Code 2023 submission.
 
@@ -101,14 +103,7 @@ _INSTRUCTIONS: The following deliverables are suggested, but **optional**. Addit
 
 ### How to run the project
 
-Instructions For Testing:
-1. Clone the repository
-2. Install the required packages with `npm install` or `yarn install`
-3. Run `npm run start` or `yarn start`
-
-Instructions For Deployment:
-1. Build the project with `eas build`
-2. Deploy the project with `eas submit`
+INSTRUCTIONS: In this section you add the instructions to run your project on your local machine for development and testing purposes. You can also add instructions on how to deploy the project in production.
 
 ### Live demo
 
