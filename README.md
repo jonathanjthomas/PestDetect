@@ -60,7 +60,7 @@ _INSTRUCTIONS: Included here is a list of commonly used IBM AI services. Remove 
 
 ### Other IBM technology used
 
-INSTRUCTIONS: List any other IBM technology used in your solution and describe how each component was used. If you can provide links to/details on exactly where these were used in your code, that would help the judges review your submission.
+Additionally, This project uses the IBM Cloud Kubernetes Service to deploy the Backend service of the app, IBM Cloud Object Storage to store the Machine Learning Model, and IBM Contair Registry to store the Docker Image of the Backend service.
 
 ### Solution architecture
 
@@ -101,7 +101,14 @@ _INSTRUCTIONS: The following deliverables are suggested, but **optional**. Addit
 
 ### How to run the project
 
-INSTRUCTIONS: In this section you add the instructions to run your project on your local machine for development and testing purposes. You can also add instructions on how to deploy the project in production.
+Instructions For Testing:
+1. Clone the repository
+2. Install the required packages with `npm install` or `yarn install`
+3. Run `npm run start` or `yarn start`
+
+Instructions For Deployment:
+1. Build the project with `eas build`
+2. Deploy the project with `eas submit`
 
 ### Live demo
 
