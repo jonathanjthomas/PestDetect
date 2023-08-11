@@ -8,12 +8,12 @@ const Actions = () => {
   return (
     <View>
       <Link href={"/pestsnap"} className="my-3">
-        <View className="w-80 bg-green-600 h-32 rounded-md flex flex-row p-5">
+        <View className="w-80 bg-green-600 h-36 rounded-md flex flex-row p-5">
           <View className="flex flex-col justify-center items-center w-[20%]">
             <Focus color="white" size={70} />
           </View>
           <View className="flex flex-col justify-center items-center w-[70%]">
-            <Text className="text-white text-2xl mb-2">Pest Snap</Text>
+            <Text className="text-white text-2xl mb-2">PestSnap</Text>
             <Text className="text-white text-sm text-center px-2">Snap an image to identify a stored grain pest and receive targeted sustainable prevention and management techniques</Text>
           </View>
           <View className="flex flex-col justify-center items-center w-[10%]">
@@ -23,12 +23,12 @@ const Actions = () => {
       </Link>
 
       <Link href={"/pestbot"} className="my-3">
-        <View className="w-80 bg-purple-600 h-32 rounded-md flex flex-row p-5 mt-5">
+        <View className="w-80 bg-purple-600 h-36 rounded-md flex flex-row p-5 mt-5">
           <View className="flex flex-col justify-center items-center w-[20%]">
             <Bot color="white" size={70} />
           </View>
           <View className="flex flex-col justify-center items-center w-[70%]">
-            <Text className="text-white text-2xl">Pest Bot</Text>
+            <Text className="text-white text-2xl">PestBot</Text>
             <Text className="text-white text-sm text-center px-2">Chat with Pest Bot to get more information about stored grain pests</Text>
           </View>
           <View className="flex flex-col justify-center items-center w-[10%]">
