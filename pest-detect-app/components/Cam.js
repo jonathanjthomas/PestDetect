@@ -158,7 +158,7 @@ const Cam = () => {
 
             {/* Head Text */}
             <Text className="text-2xl mt-5">Pest Snap</Text>
-            <Text className="my-3"> Kindly focus on the Pest for the best results</Text>
+            <Text className="my-3"> Focus on the pest for the best results</Text>
             <InfoDisplayer />
 
 
@@ -175,8 +175,8 @@ const Cam = () => {
                     <Pressable className="flex justify-center items-center bg-sky-500 p-2 rounded-md mt-4 w-32" onPress={() => { requestPermission(); }}>
                         <Text className="text-white" > Allow </Text>
                     </Pressable>
-                    <Text className="text-white text-center pt-2">Want to use camera?</Text>
-                    <Text className="text-white text-center">Kindly allow access to Camera</Text>
+                    <Text className="text-white text-center pt-2">Want to snap a photo?</Text>
+                    <Text className="text-white text-center">Please allow access to the camera</Text>
                 </View>
                 }
 
@@ -238,7 +238,7 @@ const Cam = () => {
                         <Text className="text-white" > Retake </Text>
                         <Repeat2 className="ml-2" color="white" size={15} />
                     </Pressable>
-                    <Text className="text-black text-center mt-2">Not satisfied with the Image?</Text>
+                    <Text className="text-black text-center mt-2">Not satisfied with the image?</Text>
                 </View>
             }
 
@@ -293,7 +293,7 @@ const Cam = () => {
             <Modal visible={PestInfo.Status === "Loading"} animationType="slide">
                 <View className="flex-1 flex justify-center items-center">
                     <ActivityIndicator className="text-xl" size="large" color="#0ea5e9" />
-                    <Text className="text-xl mt-5">Identifying the Pest, Hold on ... </Text>
+                    <Text className="text-xl mt-5">Identifying the pest, hold on ... </Text>
                 </View>
             </Modal>
 

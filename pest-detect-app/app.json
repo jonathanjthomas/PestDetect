@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Pest Detect",
+    "name": "PestDetect",
     "slug": "PestDetect",
-    "description": "An app that detects pests in crops and gives the user information about the pest and how to control it.",
+    "description": "An AI-powered mobile app that identifies stored grain pests and recommends sustainable management techniques.",
     "scheme": "pestdetect",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -41,7 +41,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow $(PRODUCT_NAME) to access your Gallery."
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your gallery."
         }
       ]
     ],

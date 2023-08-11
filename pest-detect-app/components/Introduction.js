@@ -35,29 +35,29 @@ const Introduction = ({ showIntro, setIntroduction }) => {
                 <View className="bg-white w-80 h-full rounded-lg">
                     <View className="flex flex-row justify-center items-center p-3">
                         <Image source={require("../assets/logo.png")} style={{ width: 100, height: 100 }} />
-                        <Text className="ml-5 text-xl font-semibold">Pest Detect</Text>
+                        <Text className="ml-5 text-xl font-semibold">PestDetect</Text>
                     </View>
                     <ScrollView horizontal={true} scrollEventThrottle={16} pagingEnabled={true} showsHorizontalScrollIndicator={false} onScroll={setSliderPage} className="">
                         <View className="w-80 p-3 h-fit justify-center items-center" >
                             <View className="w-[95%] h-48 ">
                                 <Image style={{ width: "100%", height: "100%" }} className="rounded-md" source={"https://res.cloudinary.com/cybertech13/image/upload/v1691602944/Pest%20Dectector/WhatsApp_Image_2023-08-09_at_18.45.13_rmoe1w.jpg"} />
                             </View>
-                            <Text className="mt-5 text-xl font-semibold">Welcome to the Pest Detect App</Text>
-                            <Text className="mt-5 text-center">This app utilizes Artificial Intelligence to detect and provide sustainable methods to eradicate storage pests.</Text>
+                            <Text className="mt-5 text-xl font-semibold">Welcome to PestDetect!</Text>
+                            <Text className="mt-5 text-center">An AI-powered mobile app that identifies stored grain pests and recommends sustainable management techniques.</Text>
                         </View>
                         <View className="w-80 h-fit justify-center items-center p-3" >
                             <View className="w-[95%] h-[70%] ">
                                 <Image style={{ width: "100%", height: "100%", contentFit: "contain" }} className="object-contain" source={"https://res.cloudinary.com/cybertech13/image/upload/v1691602944/Pest%20Dectector/WhatsApp_Image_2023-08-09_at_18.43.21_xyyldu.jpg"} />
                             </View>
                             <Text className="mt-5 text-xl font-semibold">Pest Snap</Text>
-                            <Text className="mt-5 text-center">This module helps you with taking snaps of the storage pest using the phone camera and uses AI technology to analyze the pest after which it directs you to pest bot which provides details regarding the pests.</Text>
+                            <Text className="mt-5 text-center">Snap a photo of a stored grain pest and use AI to identify the pest and converse with a chatbot on targeted sustainable pest prevention and management techniques.</Text>
                         </View>
                         <View className="w-80 h-fit justify-center items-center p-3" >
                             <View className="w-[95%] h-[70%]">
                                 <Image style={{ width: "100px", height: "100%", contentFit: "contain" }} source={"https://res.cloudinary.com/cybertech13/image/upload/v1691602944/Pest%20Dectector/Screenshot_2023-08-09_213940_jz86gd.png"} />
                             </View>
                             <Text className="mt-5 text-xl font-semibold">Pest Bot</Text>
-                            <Text className="mt-5 text-center">This module makes use of an AI chat bot to help you with identifying and providing information regarding pests.</Text>
+                            <Text className="mt-5 text-center"> Chat wih Pest Bot to answer your questions about different stored grain pests and their management practices</Text>
                         </View>
                     </ScrollView>
                     <View className="w-full flex flex-row justify-center items-center h-20">
