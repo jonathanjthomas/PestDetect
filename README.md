@@ -51,16 +51,22 @@ More detail is available in our [description document](./docs/DESCRIPTION.md).
 
 _INSTRUCTIONS: Included here is a list of commonly used IBM AI services. Remove any services you did not use, or add others from the linked catalog not already listed here. Leave only those included in your solution code. Provide details on where and how you used each IBM AI service to help judges review your implementation. Remove these instructions._
 
-- [IBM Natural Language Understanding](https://cloud.ibm.com/catalog/services/natural-language-understanding) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
-- [Watson Assistant](https://cloud.ibm.com/catalog/services/watson-assistant) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
-- [Watson Discovery](https://cloud.ibm.com/catalog/services/watson-discovery) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
-- [Watson Speech to Text](https://cloud.ibm.com/catalog/services/speech-to-text) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
-- [Watson Text to Speech](https://cloud.ibm.com/catalog/services/text-to-speech) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
-- List any additional [IBM AI services](https://cloud.ibm.com/catalog?category=ai#services) used or remove this line
+- [Watson Machine Learning](https://github.com/jonathanjthomas/PestDetect/blob/1bf09b14c0ea3b37424520a868939aee46b936b6/backend/Flask_Backend/app.py) - The Watson Machine Learning service is used to deploy the Image Classification Machine Learning model that used in the backend service of the app. The model is trained on a dataset of images of several pests. The model is then deployed to the IBM Cloud Object Storage. 
+- [Watson Assistant](https://github.com/jonathanjthomas/PestDetect/blob/93662c062d354c5c05cca92d9e54ff3ba745cf1e/backend/Nignx_Backend/Web/index.html) - WHERE AND HOW THIS IS USED IN OUR SOLUTION
+- [Watson Studio] - The Image classification model is uploaded as an assest and deployed using the Watson Studio Deployments service on a Extra small 1 CPU and 2 GB RAM Instance.
 
 ### Other IBM technology used
 
-Additionally, This project uses the IBM Cloud Kubernetes Service to deploy the Backend service of the app, IBM Cloud Object Storage to store the Machine Learning Model, and IBM Contair Registry to store the Docker Image of the Backend service.
+Additionally, This project uses:
+1. IBM Cloud Kubernetes Service to deploy the Flask Backend and the Nginx Server onto pods which exposed using the NodePort service.
+2. IBM Cloud Object Storage stores the Machine Learning Model on the Watson Studio
+3. IBM Container Registry stores the Docker Image of the Flask Backend and the Nginx Server.
+
+The Depoyment of the Backend service is done using the IBM Cloud CLI, Docker and Kubernetes. 
+
+1. IBM Cloud CLI was used to login into docker and kubernetes.
+2. Docker was used to build the docker image of the Flask Backend and the Nginx Server.
+3. Kubernetes was used to deploy the docker image onto the IBM Cloud Kubernetes Service.
 
 ### Solution architecture
 
