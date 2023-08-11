@@ -1,0 +1,57 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+
+<body>
+  <h1> Loading ... </h1>
+  <script>
+    function handler(obj) {
+    
+      const urlParams = new URLSearchParams(window.location.search);
+      const Pest = urlParams.get('Pest');
+
+      if(Pest){
+        window.WebChatInstance.send(Pest)
+      }
+    }
+  
+
+    window.watsonAssistantChatOptions = {
+      integrationID: "1ee408dc-0250-446a-a604-6598fad37d6b", // The ID of this integration.
+      region: "eu-gb", // The region your integration is hosted in.
+      serviceInstanceID: "f935666d-73c8-4fd9-99c3-5340ae71760e", // The ID of your service instance.
+      onLoad: function (instance) {
+        instance.render();
+        window.WebChatInstance = instance;
+        instance.requestFocus();
+        instance.doAutoScroll();
+        instance.on({ type: "chat:ready", handler: handler });
+      },
+      showLauncher: false,
+      openChatByDefault: true,
+      hideCloseButton: true
+    };
+
+    setTimeout(function () { const t = document.createElement('script'); t.src = "https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js"; document.head.appendChild(t); });    
+  </script>
+</body>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .WACHeader__Container {
+    display: none !important;
+  }
+
+
+
+ 
+</style>
+
+</html>
