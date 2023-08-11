@@ -93,7 +93,7 @@ In the future we plan to...
 
 See below for our proposed schedule on next steps after Call for Code 2023 submission.
 
-![Roadmap]([./images/roadmap.jpg](https://github.com/jonathanjthomas/PestDetect/blob/d64709fe5f084a1ce47a9dd2101fa52671e370c8/images/PD_Roadmap.jpg))
+![Roadmap](https://github.com/jonathanjthomas/PestDetect/blob/d64709fe5f084a1ce47a9dd2101fa52671e370c8/images/PD_Roadmap.jpg)
 
 ## Additional details
 
