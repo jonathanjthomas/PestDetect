@@ -56,11 +56,11 @@ More detail is available in our [description document](./docs/DESCRIPTION.md).
 ### Other IBM technology used
 
 Additionally, This project uses:
-1. IBM Cloud Kubernetes Service to deploy the Flask Backend and the Nginx Server onto pods which exposed using the NodePort service.
+1. IBM Cloud Kubernetes Service to deploy the Flask Backend and the Nginx Server onto pods which are exposed using the NodePort service.
 2. IBM Cloud Object Storage stores the Machine Learning Model on the Watson Studio
 3. IBM Container Registry stores the Docker Image of the Flask Backend and the Nginx Server.
 
-The Depoyment of the Backend service is done using the IBM Cloud CLI, Docker and Kubernetes. 
+The Depoyment of the Backend service is done using the IBM Cloud CLI, Docker CLI and Kubernetes CLI. 
 
 1. IBM Cloud CLI was used to login into docker and kubernetes.
 2. Docker was used to build the docker image of the Flask Backend and the Nginx Server.
