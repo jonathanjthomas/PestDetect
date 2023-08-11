@@ -106,8 +106,18 @@ See below for our proposed schedule on next steps after Call for Code 2023 submi
 _INSTRUCTIONS: The following deliverables are suggested, but **optional**. Additional details like this can help the judges better review your solution. Remove any sections you are not using._
 
 ### How to run the project
+Instruction to run the project locally:
+1. Clone the repository
+2. Navigate to the pest-detect-app directory
+3. Run `npm install` or `yarn install` to install the dependencies
+4. Run `npm start` or `yarn start` to start the app
+5. Scan the QR code using the Expo go app on your phone or use an emulator
 
-INSTRUCTIONS: In this section you add the instructions to run your project on your local machine for development and testing purposes. You can also add instructions on how to deploy the project in production.
+Instruction to deploy on Production:
+1. Clone the repository
+2. Navigate to the pest-detect-app directory
+3. Run `eas build`
+4. Run `eas submit` to submit the build to the app store
 
 ### Live demo
 
