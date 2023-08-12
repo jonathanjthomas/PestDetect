@@ -128,13 +128,17 @@ Instruction to deploy on Production:
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
+### Versioning
+
+We used [GitHub](https://github.com) for versioning. For the versions available, see the [tags on this repository](https://github.com/jonathanjthomas/PestDetect/)
+
 ### Authors
 
-<a href="https://github.com/Call-for-Code/Project-Sample/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=Call-for-Code/Project-Sample" />
-</a>
 
-- **Billie Thompson** - _Initial work_ - [PurpleBooth](https://github.com/PurpleBooth)
+- **Ajay Menon**
+- **Jonathan John Thomas**
+- **Siddh Tailor**
+
 
 ### License
 
