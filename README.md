@@ -46,10 +46,11 @@ More detail is available in our [description document](./docs/DESCRIPTION.md).
 
 ### IBM AI service(s) used
 
-- [Watson Machine Learning](https://github.com/jonathanjthomas/PestDetect/blob/1bf09b14c0ea3b37424520a868939aee46b936b6/backend/Flask_Backend/app.py) - The Watson Machine Learning service is used to deploy the Image Classification Machine Learning model that is used in the backend service of the app. The model has been trained on a dataset of 7000 images of several pest categories. The model was then uploaded to the IBM Cloud Object Storage. Model inferences for the app are now run in Watson Machine Learning. 
-- [Watson Assistant](https://github.com/jonathanjthomas/PestDetect/blob/93662c062d354c5c05cca92d9e54ff3ba745cf1e/backend/Nignx_Backend/Web/index.html) - Watson Assistant is used in the PestBot feature of the app. The initial set of management and prevention practices recommended to the user by Watson Assistant is provided through the set of predefined actions for each pest category. Follow up questions are then handled by calling the  OpenAI GPT Chat Completion API
+- [Watson Machine Learning](https://github.com/jonathanjthomas/PestDetect/blob/1bf09b14c0ea3b37424520a868939aee46b936b6/backend/Flask_Backend/app.py) - The Watson Machine Learning service is used to deploy the Image Classification Machine Learning model, used in the backend service of the app. The model has been trained on a dataset of 7000 images of several pest categories. The model was then uploaded to the IBM Cloud Object Storage. Model inferences for the app are now run in Watson Machine Learning. 
 
-- Watson Studio - The Image classification model is uploaded as an assest and deployed using the Watson Studio Deployments service on a Extra small 1 CPU and 2 GB RAM Instance.
+- [Watson Assistant](https://github.com/jonathanjthomas/PestDetect/blob/93662c062d354c5c05cca92d9e54ff3ba745cf1e/backend/Nignx_Backend/Web/index.html) - Watson Assistant is used in both the PestSnap and PestBot feature of the app to serve as a chatbot farmer to recommend to them sustainable pest prevention and management techniques, based on different categories of pests . The initial set of management and prevention practices recommended to the user by Watson Assistant is provided through the set of predefined actions for each pest category. Follow up questions are then handled by calling the OpenAI GPT Chat Completion API. A set of system instructions, information about the pest and the user's question are sent through the API, and the response is provided to the user through the Watson Assistant Interface.
+
+- Watson Studio - The Image classification model is uploaded as an asset and deployed using the Watson Studio Deployments service on an extra small CPU and 2 GB RAM Instance.
 
 ### Other IBM technology used
 
@@ -58,7 +59,7 @@ Additionally, This project uses:
 2. IBM Cloud Object Storage stores the Machine Learning Model on the Watson Studio
 3. IBM Container Registry stores the Docker Image of the Flask Backend and the Nginx Server.
 
-The Depoyment of the Backend service is done using the IBM Cloud CLI, Docker CLI and Kubernetes CLI. 
+The Deployment of the Backend service is done using the IBM Cloud CLI, Docker CLI and Kubernetes CLI. 
 
 1. IBM Cloud CLI was used to login into docker and kubernetes.
 2. Docker was used to build the docker image of the Flask Backend and the Nginx Server.
@@ -80,8 +81,6 @@ Diagram and step-by-step description of the flow of our solution:
 
 ## Presentation materials
 
-_INSTRUCTIONS: The following deliverables should be officially posted to your My Team > Submissions section of the [Call for Code Global Challenge resources site](https://cfc-prod.skillsnetwork.site/), but you can also include them here for completeness. Replace the examples seen here with your own deliverable links._
-
 ### Solution demo video
 
 [![Watch the video](https://raw.githubusercontent.com/Liquid-Prep/Liquid-Prep/main/images/readme/IBM-interview-video-image.png)](https://youtu.be/vOgCOoy_Bx0)
@@ -101,8 +100,6 @@ See below for our proposed schedule on next steps after Call for Code 2023 submi
 
 ## Additional details
 
-_INSTRUCTIONS: The following deliverables are suggested, but **optional**. Additional details like this can help the judges better review your solution. Remove any sections you are not using._
-
 ### How to run the project
 Instruction to run the project locally:
 1. Clone the repository
@@ -117,15 +114,6 @@ Instruction to deploy on Production:
 3. Run `eas build`
 4. Run `eas submit` to submit the build to the app store
 
-### Live demo
-
-You can find a running system to test at...
-
-See our [description document](./docs/DESCRIPTION.md) for log in credentials.
-
----
-
-_INSTRUCTIONS: You can remove the below section from your specific project README._
 
 ## About this template
 
