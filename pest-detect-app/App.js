@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { Text, View } from 'react-native'; 
 
 export default function App() {
   // Ensure we import the CSS for Tailwind so it's included in hot module reloads.
