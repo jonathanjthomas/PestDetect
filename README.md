@@ -119,6 +119,8 @@ Instruction to run the project locally:
 5. Scan the QR code using the Expo go app on your phone or use an emulator
 
 Instruction to deploy on Production:
+Prior to this eas will need to be Setup on the machine. Follow the instructions [here](https://docs.expo.dev/build/setup/) to configure eas.
+
 1. Clone the repository
 2. Navigate to the pest-detect-app directory
 3. Run `eas build`
