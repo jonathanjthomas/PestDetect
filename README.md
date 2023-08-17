@@ -112,11 +112,16 @@ See below for our proposed schedule on next steps after Call for Code 2023 submi
 
 ### How to run the project
 Instruction to run the project locally:
-1. Clone the repository
-2. Navigate to the pest-detect-app directory
-3. Run `npm install` or `yarn install` to install the dependencies
-4. Run `npm start` or `yarn start` to start the app
-5. Scan the QR code using the Expo go app on your phone or use an emulator
+
+1. Create an account in Expo (expo.dev)
+2. Install the EAS CLI: npm install --global eas-cli
+3. Run eas login , and enter your credentials
+4. Run `npm install` ( yarn install if using yarn)
+5. Run `npm run start` ( yarn start if using yarn)
+6. Enter 's' to switch to the 'Expo Go' mode
+7. Download Expo from your phone's app store, and log in using the account created
+8. Scan the second QR Code generated in the Expo app. When prompted "How would you like to open this project", select "Expo Go"
+Note: Ensure you are signed into the same Expo account in both the app and your computer. Verify that your computer is connected to the Internet, ideally the same Wi-Fi network as your mobile device
 
 Instruction to deploy on Production:
 Prior to this eas will need to be Setup on the machine. Follow the instructions [here](https://docs.expo.dev/build/setup/) to configure eas.
