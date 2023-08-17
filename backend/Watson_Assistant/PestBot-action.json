@@ -1,0 +1,4140 @@
+{
+  "name": "PestBot-action",
+  "type": "action",
+  "valid": true,
+  "status": "Available",
+  "created": "2023-08-08T07:49:07.576Z",
+  "updated": "2023-08-11T10:05:33.564Z",
+  "language": "en",
+  "skill_id": "8c524ddb-f0a3-452b-aba8-894ca834708c",
+  "workspace": {
+    "actions": [
+      {
+        "steps": [
+          {
+            "step": "step_126",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "[{\"role\":\"system\", \"content\":\"You are a chatbot that assists farmers by providing simple and concise explanations for management practices for ${class} pests in stored grains. Use the provided information delimited by triple quotes to answer the question. DO NOT ASK THE USER IF THEY WOULD LIKE MORE HELP. If the answer cannot be found in the provided information, answer from your pretrained knowledge. If you are unable to answer a question or if the information is not adequate or if questions are unrelated to ${class}, answer with the following response: ‘Sorry, that question is beyond my current scope’\"}, \n{\"role\": \"user\", \"content\": \"${class_info} Question:${model_prompt}\"}]\n"
+                  },
+                  "skill_variable": "messages"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/v1/chat/completions",
+                "type": "integration_interaction",
+                "method": "POST",
+                "internal": {
+                  "spec_hash_id": "52abfcce168af45904bbec67aa72171f74fe00fccc025503d374dbe9d83f0898",
+                  "catalog_item_id": "585d8b3f-b6c8-4950-b84e-fe85bc802548"
+                },
+                "request_mapping": {
+                  "body": [
+                    {
+                      "value": {
+                        "scalar": "gpt-3.5-turbo"
+                      },
+                      "parameter": "model"
+                    },
+                    {
+                      "value": {
+                        "expression": "${messages}"
+                      },
+                      "parameter": "messages"
+                    },
+                    {
+                      "value": {
+                        "scalar": 250
+                      },
+                      "parameter": "max_tokens"
+                    }
+                  ]
+                },
+                "result_variable": "step_126_result_1"
+              }
+            },
+            "variable": "step_126",
+            "next_step": "step_973"
+          },
+          {
+            "step": "step_973",
+            "output": {
+              "generic": []
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "${step_126_result_1}.body.choices[0].message.content"
+                  },
+                  "skill_variable": "model_response"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_973",
+            "condition": {
+              "and": [
+                {
+                  "eq": [
+                    {
+                      "variable": "step_126_result_1",
+                      "variable_path": "success"
+                    },
+                    {
+                      "scalar": true
+                    }
+                  ]
+                },
+                {
+                  "expression": "${step_126_result_1}.body.choices.size() > 0"
+                }
+              ]
+            },
+            "next_step": "step_416"
+          },
+          {
+            "step": "step_416",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "null"
+                  },
+                  "skill_variable": "model_response"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_416"
+          }
+        ],
+        "title": "Invoke GPT Chat Completion API",
+        "action": "action_25675-2",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_25675_intent_42103-2"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_126",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_126_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_416",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_973",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_9656-2",
+        "topic_switch": {
+          "allowed_from": false,
+          "allowed_into": false
+        },
+        "disambiguation_opt_out": true
+      },
+      {
+        "steps": [
+          {
+            "step": "step_888",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Select the stored grain pest you would like to know more about:"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Flour Moths",
+                      "value": {
+                        "input": {
+                          "text": "Flour Moths"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Grain and Flour Beetles",
+                      "value": {
+                        "input": {
+                          "text": "Grain and Flour Beetles"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Grain Moths",
+                      "value": {
+                        "input": {
+                          "text": "Grain Moths"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Mealworms",
+                      "value": {
+                        "input": {
+                          "text": "Mealworms"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Rodents",
+                      "value": {
+                        "input": {
+                          "text": "Rodents"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Grain Weevils",
+                      "value": {
+                        "input": {
+                          "text": "Grain Weevils"
+                        }
+                      }
+                    },
+                    {
+                      "label": "Grain Borers",
+                      "value": {
+                        "input": {
+                          "text": "Grain Borers"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_9870",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_888",
+            "next_step": "step_676"
+          },
+          {
+            "step": "step_676",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_9656-3-2-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_676_result_1"
+              }
+            },
+            "variable": "step_676",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "value": "Flour Moths",
+                  "from_entity": "entity_9870"
+                }
+              ]
+            },
+            "next_step": "step_452"
+          },
+          {
+            "step": "step_452",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_9656-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_452_result_1"
+              }
+            },
+            "variable": "step_452",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "value": "Grain and Flour Beetles",
+                  "from_entity": "entity_9870"
+                }
+              ]
+            },
+            "next_step": "step_913"
+          },
+          {
+            "step": "step_913",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_9656-3",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_913_result_1"
+              }
+            },
+            "variable": "step_913",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "value": "Grain Moths",
+                  "from_entity": "entity_9870"
+                }
+              ]
+            },
+            "next_step": "step_510"
+          },
+          {
+            "step": "step_510",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_9656-3-2-2-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_510_result_1"
+              }
+            },
+            "variable": "step_510",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "value": "Mealworms",
+                  "from_entity": "entity_9870"
+                }
+              ]
+            },
+            "next_step": "step_992"
+          },
+          {
+            "step": "step_992",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_9656-3-2-2-2-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_992_result_1"
+              }
+            },
+            "variable": "step_992",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "value": "Rodents",
+                  "from_entity": "entity_9870"
+                }
+              ]
+            },
+            "next_step": "step_782"
+          },
+          {
+            "step": "step_782",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_9656",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_782_result_1"
+              }
+            },
+            "variable": "step_782",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "value": "Grain Weevils",
+                  "from_entity": "entity_9870"
+                }
+              ]
+            },
+            "next_step": "step_845"
+          },
+          {
+            "step": "step_845",
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_9656-3-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_845_result_1"
+              }
+            },
+            "variable": "step_845",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "value": "Grain Borers",
+                  "from_entity": "entity_9870"
+                }
+              ]
+            },
+            "next_step": "step_501"
+          },
+          {
+            "step": "step_501",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to explore more classes?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_501",
+            "next_step": "step_785"
+          },
+          {
+            "step": "step_785",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Thank you for using PestBot. Have a great day!"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_785",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_501"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_390"
+          },
+          {
+            "step": "step_390",
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_888"
+                },
+                {
+                  "variable": "step_676"
+                },
+                {
+                  "variable": "step_452"
+                },
+                {
+                  "variable": "step_913"
+                },
+                {
+                  "variable": "step_510"
+                },
+                {
+                  "variable": "step_992"
+                },
+                {
+                  "variable": "step_782"
+                },
+                {
+                  "variable": "step_845"
+                },
+                {
+                  "variable": "step_501"
+                },
+                {
+                  "variable": "step_785"
+                }
+              ]
+            },
+            "variable": "step_390",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_501"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            }
+          }
+        ],
+        "title": "PestBot",
+        "action": "action_42066",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_42066_intent_10436"
+        },
+        "variables": [
+          {
+            "title": "No response",
+            "variable": "step_390",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_452",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_452_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to explore more classes?",
+            "variable": "step_501",
+            "data_type": "yes_no"
+          },
+          {
+            "title": "No response",
+            "variable": "step_510",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_510_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_676",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_676_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_782",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_782_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Thank you for using PestBot. Have a great day!",
+            "variable": "step_785",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_845",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_845_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Select the stored grain pest you would like to know more about:",
+            "variable": "step_888",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_913",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_913_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_992",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_992_result_1",
+            "data_type": "any"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_9656",
+        "topic_switch": {
+          "allowed_from": false,
+          "allowed_into": false
+        },
+        "disambiguation_opt_out": true
+      },
+      {
+        "steps": [
+          {
+            "step": "step_784",
+            "output": {
+              "generic": [
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/1655889136/media/858191fd653d191fa131a7d07f00a6c5",
+                  "alt_text": "Grain Weevil",
+                  "description": "",
+                  "response_type": "image"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Grain Weevils"
+                  },
+                  "skill_variable": "class"
+                },
+                {
+                  "value": {
+                    "scalar": "\"\"\"Grain weevils are a group of small, snout beetles belonging to the family Curculionidae, known for their voracious feeding habits and ability to cause significant damage to various types of grains during storage. While there are different species of grain weevils, including the granary weevil, rice weevil, broad-nosed grain weevil, and coffee-bean weevil, they share certain common characteristics in their distribution, bionomics, and damage symptoms.  **Distribution:** Grain weevils are cosmopolitan pests, meaning they are found all around the world. They are adapted to various environmental conditions and can thrive in a wide range of climates.  **Bionomics:** Grain weevils have a similar life cycle, consisting of several stages: egg, larva, pupa, and adult. The adults of these weevils are small, typically ranging from about 2.5 to 5 mm in length, and are usually dark brown in color. They possess a distinctive snout or elongated mouthpart that is used for feeding and oviposition. Both adult and larval stages are voracious feeders, targeting a variety of grains such as oats, wheat, rice, barley, corn, and more.  Females of grain weevils lay their eggs within the grains, often using their snout to create a small hole in which they deposit the eggs. After hatching, the white, legless larvae feed on the starchy material within the grains. As they develop, larvae go through different stages, eventually pupating and emerging as adults. Grain weevils reproduce relatively quickly, with shorter life cycles observed in warmer seasons compared to colder ones.  **Damage Symptoms:** Grain weevils are highly destructive pests, causing significant damage to stored grains. They create entry holes in grains to lay their eggs, and these holes serve as points of entry for both larvae and adults. The feeding activity of these pests leads to the degradation of the nutritional content of the grains, rendering them unsuitable for consumption or seed propagation.  Common damage symptoms include the presence of irregular holes on the surface of the grains, usually around 1.5 mm in diameter. These holes are evidence of the weevil's feeding and oviposition activity. Additionally, infested grains may show signs of moldiness or discoloration, as well as a reduction in quality and overall yield.  In conclusion, grain weevils, including species like the granary weevil, rice weevil, broad-nosed grain weevil, and coffee-bean weevil, are cosmopolitan pests that share similar bionomic characteristics and cause significant damage to a variety of grains during storage. Their ability to infest and feed on stored grains can lead to reduced crop yields, economic losses, and compromised food quality. Effective pest management strategies are crucial to mitigate the impact of these destructive pests on grain production and storage.  Management of grain weevils: Freezing is one traditional method in which stored grains are stored in freezing conditions to increase their shelf life free from infestation. Vacuum cleaning is another traditional method in which any stage of any pest can be pulled from any surface with the vacuum cleaners by sucking all of them. Sun drying of grains is also beneficial. Cleaning, damp-proofing, and heating arrangements should be made possible before storing grains in storehouses or godowns. Corn and other husk-bearing crops should be stored in the shuck if the husk is tight, and covers the whole tip, but if all ears with loose, short, broken, damaged, or perforated husks should be shucked and stored separately in clean bins. Placing neem leaves inside grain containers is also recommended. Chemical control can be performed by applying 5% BHC at the rate of 0.15% by weight. Before storage of grains, godowns, containers, and bins should be sprayed with 0.02% Malathion or 0.4% BHC. Fumigants such as methyl bromide, ethylene dibromide, phostoxin tablets, and HCN are also used for fumigation for 18 h in the closed godowns. Chemical control methods are not preferred due to their harmful impact on the environment.\"\"\""
+                  },
+                  "skill_variable": "class_info"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_784",
+            "next_step": "step_842"
+          },
+          {
+            "step": "step_842",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "**GRAIN WEEVILS**\n\nGrain weevils are a group of small, snout beetles known for their voracious feeding habits and ability to cause significant damage to various types of grains during storage.\n\n<br />\n\n\n\n***Management Techniques***\n\n**Freezing** is one traditional method in which stored grains are stored in\nfreezing conditions to increase their shelf life free from infestation."
+                          },
+                          {
+                            "scalar": "\n\n**Vacuum cleaning** is another traditional method in which any stage of any pest can be pulled from any surface with the vacuum cleaners by sucking all of them.\n\n**Sun drying of grains** is also beneficial. Cleaning, damp-proofing, and heating arrangements should be made possible before storing grains in storehouses or godowns.\n\n**Corn and other husk-"
+                          },
+                          {
+                            "scalar": "bearing crops should be stored in the shuck if the husk is tight**, and covers the whole tip, but if all ears with loose, short, broken, damaged, or perforated husks should be shucked and stored separately in clean bins.\n\n**Placing neem leaves inside grain containers** is also recommended.\n\n<br />\n\n\n\n*Chemical control can be performed by applying 5% BHC at the rate of 0.15% by weight."
+                          },
+                          {
+                            "scalar": " Before storage of grains, godowns, containers, and bins should be sprayed with 0.02% Malathion or 0.4% BHC. Fumigants such as methyl bromide, ethylene dibromide, phostoxin tablets, and HCN are also used for fumigation for 18 h in the closed godowns.* ***Chemical control methods are not preferred due to their harmful impact on the environment.***"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_842",
+            "next_step": "step_975"
+          },
+          {
+            "step": "step_975",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to ask a question about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_975",
+            "next_step": "step_345"
+          },
+          {
+            "step": "step_345",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_345",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_375"
+          },
+          {
+            "step": "step_375",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What would you like to know about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_375",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_708"
+          },
+          {
+            "step": "step_708",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_375"
+                  },
+                  "skill_variable": "model_prompt"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_25675-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_708_result_1"
+              }
+            },
+            "variable": "step_708",
+            "next_step": "step_115"
+          },
+          {
+            "step": "step_115",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": ""
+                          },
+                          {
+                            "skill_variable": "model_response"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "variable": "step_345"
+                },
+                {
+                  "variable": "step_375"
+                },
+                {
+                  "variable": "step_708"
+                }
+              ]
+            },
+            "variable": "step_115"
+          }
+        ],
+        "title": "grain weevils",
+        "action": "action_9656",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9656_intent_39903"
+        },
+        "variables": [
+          {
+            "title": "{variable}",
+            "variable": "step_115",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_345",
+            "data_type": "any"
+          },
+          {
+            "title": "What would you like to know about {variable}?",
+            "variable": "step_375",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_708",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_708_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_784",
+            "data_type": "any"
+          },
+          {
+            "title": "**GRAIN WEEVILS** Grain weevils are a group of small, snout beet",
+            "variable": "step_842",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to ask a question about {variable}?",
+            "variable": "step_975",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_25675-2",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_784",
+            "output": {
+              "generic": [
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/4028773031/media/6fee9284473f5d1b1f7d6061a3a18289",
+                  "alt_text": "Grain and Flour Beetle",
+                  "description": "",
+                  "response_type": "image"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Grain and Flour Beetles"
+                  },
+                  "skill_variable": "class"
+                },
+                {
+                  "value": {
+                    "scalar": "\"\"\"Grain and Flour Beetles: General Overview Grain and flour beetles are widespread and common pests that infest various stored grains and food products. They can cause significant damage to stored foods, leading to quality and quantity loss. These beetles belong to different families, such as Tenebrionidae, Silvanidae, Dermestidae, Nitidulidae, and Chrysomelidae. While they have distinct characteristics, there are certain common features in their distribution, behavior, and damage symptoms. Distribution: Grain and flour beetles are cosmopolitan in nature, meaning they are found all around the world. They thrive in different climates, from temperate regions to tropical and subtropical areas. Bionomics: 1.\tLifecycle: Grain and flour beetles undergo a complete metamorphosis, consisting of egg, larval, pupal, and adult stages. Females lay eggs on or near the food source. Eggs hatch into larvae, which are the most destructive stage, feeding voraciously on stored grains, seeds, and other food materials. Larvae construct cocoons before pupating, and adult beetles emerge from pupae. 2.\tFeeding Habits: Both larvae and adults of grain and flour beetles are voracious feeders. They move from grain to grain, infesting and consuming the stored food products. Some species are external feeders, damaging the surface of grains, while others may bore inside, causing hidden damage. Damage Symptoms: 1.\tHoles and Boreholes: The presence of small holes or boreholes, often around 1 mm in diameter, is a common indication of infestation. These holes are created by the feeding activities of both larvae and adults. 2.\tGrain Quality: Infested grains may show signs of quality degradation. Their appearance, taste, and odor may be altered due to the feeding and waste products of the beetles. The products may become discolored, moldy, or rancid. 3.\tWebbing and Cocoons: Some species, particularly the larvae, may produce silken threads or webs, which can be seen on or around the infested grains. Larvae also construct cocoons as they prepare to pupate. 4.\tUnpleasant Odor: The presence of grain and flour beetles can lead to an unpleasant odor in stored food products. This odor is often a result of their feeding activities and waste. It's important to note that different species of grain and flour beetles may have specific preferences for certain types of grains or food products. Proper storage practices, hygiene, and timely detection are essential for preventing and managing infestations of these pests in stored grains and food products. Species 1.\tRed Flour Beetle (Tribolium castaneum) 2.\tConfused Flour Beetle (Tribolium confusum) 3.\tSawtoothed Grain Beetle (Oryzaephilus surinamensis) 4.\tMerchant Grain Beetle (Oryzaephilus mercator) 5.\tFlat Grain Beetle (Cryptolestes pusillus)   Management of grain and flour beetles: Pest management professionals should be informed as soon as possible to identify the pest properly and to devise the best treatment to control the infestation of food grains. Stored grain containers should be thoroughly inspected for holes, rips, and other larvae or adult presence, before purchasing and after storage. Proper ventilation to prevent moisture build-up, make sure to thoroughly wipe, down, and dust storehouses, cabinets, cupboards, and pantry areas. Infested products with cigarette beetles should be discarded as soon as possible. Stored grain products should be kept in glass sealed containers, plastic containers instead of their original packing. Cleaning and wiping down those areas commonly occupied with food debris. Corn and other husk-bearing crops should be stored in the shuck if the husk is tight, and covers the whole tip, but if all ears with loose, short, broken, damaged, or perforated husks should be shucked and stored separately in clean bins. Good sanitation efforts, inspecting items, and keeping stored grain rooms fully ventilated can help to keep red flour beetles away from entering into food grains. The application of pesticides can be harmful because these pests are found in our food supply. Hence contacting experts for pest solutions at the first sign of an infestation is an effective way to protect food items from red flour beetles. Chemical control can be performed by applying carbamates, malathion, organophosphates, organochlorines, etc. These pesticides are used against many stored grain pests. New practices such as ozonation and organic pesticides have ensured grain preservation without quality loss and residue accumulation. Nitric oxide (NO), a newly discovered fumigant, has shown a great potential to control stored grain pests and has been described as a substitute for Methyl bromide. Chemical control methods are not preferred due to their harmful impact on the environment.\"\"\""
+                  },
+                  "skill_variable": "class_info"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_784",
+            "next_step": "step_842"
+          },
+          {
+            "step": "step_842",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "**GRAIN AND FLOUR BEETLES**\n\nGrain and flour beetles are widespread and common pests that infest various stored grains and food products. They can cause significant damage to stored foods, leading to quality and quantity loss."
+                          },
+                          {
+                            "scalar": " \n\n<br />\n\n\n\n***Management Practices***\n\nPest management professionals should be informed as soon as possible to identify the pest properly and to devise the best treatment to control the infestation of food grains. Stored grain containers should be thoroughly inspected for holes, rips, and other larvae or adult presence, before purchasing and after storage."
+                          },
+                          {
+                            "scalar": "\n\nProper ventilation to prevent moisture build-up, make sure to thoroughly wipe, down, and dust storehouses, cabinets, cupboards, and pantry areas.\n\nInfested products with cigarette beetles should be discarded as soon as possible.\n\nStored grain products should be kept in glass sealed containers, plastic containers instead of their original packing."
+                          },
+                          {
+                            "scalar": "\n\nCleaning and wiping down those areas commonly occupied with food debris.\n\nCorn and other husk-bearing crops should be stored in the shuck if the\nhusk is tight, and covers the whole tip, but if all ears with loose, short,\nbroken, damaged, or perforated husks should be shucked and stored separately in clean bins."
+                          },
+                          {
+                            "scalar": "\n\nThe application of pesticides can be harmful because these pests are found in our food supply. Hence **contacting experts for pest solutions** at the first sign of an infestation is an effective way to protect food items from grain and flour beetles.\n\nChemical control can be performed by applying carbamates, malathion, organophosphates, organochlorines, etc."
+                          },
+                          {
+                            "scalar": " These\n\npesticides are used against many stored grain pests. ***Chemical control methods are not preferred due to their harmful impact on the environment.***\n\n<br />\n\n\n\nNew practices such as **ozonation and organic pesticides** have ensured grain preservation without quality loss and residue accumulation.\n\nNitric oxide (NO), a newly discovered fumigant,"
+                          },
+                          {
+                            "scalar": " has shown a great\npotential to control stored grain pests and has been described\nas a substitute for Methyl bromide."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_842",
+            "next_step": "step_975"
+          },
+          {
+            "step": "step_975",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to ask a question about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_975",
+            "next_step": "step_345"
+          },
+          {
+            "step": "step_345",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_345",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_375"
+          },
+          {
+            "step": "step_375",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What would you like to know about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_375",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_708"
+          },
+          {
+            "step": "step_708",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_375"
+                  },
+                  "skill_variable": "model_prompt"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_25675-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_708_result_1"
+              }
+            },
+            "variable": "step_708",
+            "next_step": "step_115"
+          },
+          {
+            "step": "step_115",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": ""
+                          },
+                          {
+                            "skill_variable": "model_response"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "variable": "step_345"
+                },
+                {
+                  "variable": "step_375"
+                },
+                {
+                  "variable": "step_708"
+                }
+              ]
+            },
+            "variable": "step_115"
+          }
+        ],
+        "title": "grain and flour beetles",
+        "action": "action_9656-2",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9656_intent_39903-2"
+        },
+        "variables": [
+          {
+            "title": "{variable}",
+            "variable": "step_115",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_345",
+            "data_type": "any"
+          },
+          {
+            "title": "What would you like to know about {variable}?",
+            "variable": "step_375",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_708",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_708_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_784",
+            "data_type": "any"
+          },
+          {
+            "title": "**GRAIN AND FLOUR BEETLES** Grain and flour beetles are widespre",
+            "variable": "step_842",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to ask a question about {variable}?",
+            "variable": "step_975",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_9656-3",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_784",
+            "output": {
+              "generic": [
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/4155743837/media/7310747503d0abc6979f6510be566ce3",
+                  "alt_text": "Grain Moth",
+                  "description": "",
+                  "response_type": "image"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Grain Moths"
+                  },
+                  "skill_variable": "class"
+                },
+                {
+                  "value": {
+                    "scalar": "\"\"\"**General Grain Moth: Distribution, Bionomics, and Damage Symptoms** Grain moths are a group of insects that pose a significant threat to stored grains, as they can transform solid, sound, and unbroken kernels into powder and shells. Several species fall under the category of grain moths, including the Angoumois grain moth, wolf moth, pink cornworm, rice moth, and fig-almond moth. Despite differences between these species, they share common characteristics in terms of distribution, bionomics, and damage symptoms. **Distribution:** Grain moths are found in various parts of the world, with some species being cosmopolitan in distribution. They are commonly found in warmer climates, making them a concern for both field crops and stored grains. **Bionomics:** Grain moths exhibit similar life cycle patterns. The female moths lay eggs on or inside grains, often using cracks and crevices as entry points. Upon hatching, the larvae emerge and begin feeding voraciously on the stored grains, causing damage to the kernels. The larvae spin silken webs or tubes, which can serve as protective shelters. As the larvae mature, they pupate within silken cocoons before emerging as adult moths. The life cycle of grain moths is influenced by environmental factors, with warmer and more humid conditions generally leading to faster development.  **Damage Symptoms:** Grain moths can cause significant damage to stored grains, resulting in reduced quality and economic losses. Infestation by these pests can lead to the degradation of the nutritional content of the grains and render them unfit for consumption or processing. Common damage symptoms include the presence of holes or tunnels in the grains, which are evidence of the larvae's feeding activity. In some cases, the larvae produce silken web structures or cocoons that indicate their presence. As the infestation progresses, the affected grains may become clumped together or show signs of moldiness. Additionally, the infested grains may accumulate frass (excreta) and other debris, further compromising their quality. In conclusion, grain moths encompass a variety of species that collectively pose a significant threat to stored grains. Their shared distribution, life cycle patterns, and damage symptoms emphasize the importance of vigilant monitoring and preventive measures to safeguard stored grains from infestation and deterioration.  Management of grain moths: Effective management of grain moths involves implementing proper storage practices, such as maintaining cleanliness and hygiene in storage facilities, using airtight containers, and employing temperature and humidity control measures. Regular monitoring for signs of infestation, including the presence of moths, larvae, or webbing, can aid in early detection and intervention. Corn and other husk-bearing crops should be stored in the shuck if the husk is tight, and covers the whole tip, but if all ears with loose, short, broken, damaged, or perforated husks should be shucked and stored separately in clean bins. Chemical control methods are not preferred due to their harmful impact on the environment. AGM is the only stored product insect known to infest standing grain in the field. Data suggest that infestation is reduced if grain moisture is greater than 30%. However, storage at this high level of moisture can result in many other problems, like fungal growth. Below that level the pest prefers damp grain in preference to very dry grain. Carry-over grain can be a major source of AGM and other stored grain insect pests. It should be removed and discarded (sold, fed, buried, or spread on open ground in winter) to prevent the emerging adult moths from flying back to re-infest the newly stored grain. If leftover grain must be retained, it should be properly fumigated. This is, without question, the technique of last resort. Proper fumigation is costly, dangerous, and requires considerable equipment, supplies, and knowledge along with substantial paper work and notification. Removal of all spilled grain from in and around the storage area is an important method of reducing the infesting population. All equipment used to harvest, move, and store the grain should be thoroughly cleaned well before these events occur. If possible shell the corn from the cob and store in a covered solid sided facility through which air may pass. This will limit AGM infestation to the uncovered grain surface. Storage of ear or shelled corn in a solid sided facility through which air may be moved will allow for drying of the grain, thus reducing the chance of mold and limiting the ability of AGM to infest the kernels. \"\"\""
+                  },
+                  "skill_variable": "class_info"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_784",
+            "next_step": "step_842"
+          },
+          {
+            "step": "step_842",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "**GRAIN MOTHS**\n\nGrain moths are a group of insects that pose a significant threat to stored grains, as they can transform solid, sound, and unbroken kernels into powder and shells.\n\n***Management Techniques***\n\nEffective management of grain moths involves implementing proper storage practices, such as **maintaining cleanliness and hygiene in storage facilities, using airtight containers,"
+                          },
+                          {
+                            "scalar": " and employing temperature and humidity control measures.** \n\nGrain moths prefer damp grain rather than very dry grain.\n\n**Removal of all spilled grain** from in and around the storage area is an important method of reducing the infesting population.\n\nAll equipment used to harvest, move, and store the grain should be thoroughly cleaned well before these events occur."
+                          },
+                          {
+                            "scalar": "\n\n<br />\n\n\n\n**Regular monitoring for signs of infestation**, including the presence of moths, larvae, or webbing, can aid in early detection and intervention.\n\n<br />\n\n\n\n**Carry-over grain can be a major source of grain moths** and other stored grain insect pests. It should be removed and discarded (sold, fed, buried,"
+                          },
+                          {
+                            "scalar": " or spread on open ground in winter) to prevent the emerging adult moths from flying back to re-infest the newly stored grain. If leftover grain must be retained, it should be properly fumigated. However, **proper fumigation is costly, dangerous, and requires considerable equipment**, supplies, and knowledge along with substantial paper work and notification.\n\n<br />\n\n\n\n**Corn and other husk-"
+                          },
+                          {
+                            "scalar": "bearing crops should be stored in the shuck** if the husk is tight, and covers the whole tip, but, all ears with loose, short, broken, damaged, or perforated husks should be shucked and stored separately in clean bins. If possible shell the corn from the cob and store in a covered solid sided facility through which air may pass."
+                          },
+                          {
+                            "scalar": " This will limit grain moth infestation to the uncovered grain surface.\n\n<br />\n\n\n\n***Chemical control methods are not preferred due to their harmful impact on the environment.***"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_842",
+            "next_step": "step_975"
+          },
+          {
+            "step": "step_975",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to ask a question about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_975",
+            "next_step": "step_345"
+          },
+          {
+            "step": "step_345",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_345",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_375"
+          },
+          {
+            "step": "step_375",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What would you like to know about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_375",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_708"
+          },
+          {
+            "step": "step_708",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_375"
+                  },
+                  "skill_variable": "model_prompt"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_25675-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_708_result_1"
+              }
+            },
+            "variable": "step_708",
+            "next_step": "step_115"
+          },
+          {
+            "step": "step_115",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": ""
+                          },
+                          {
+                            "skill_variable": "model_response"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "variable": "step_345"
+                },
+                {
+                  "variable": "step_375"
+                },
+                {
+                  "variable": "step_708"
+                }
+              ]
+            },
+            "variable": "step_115"
+          }
+        ],
+        "title": "grain moths",
+        "action": "action_9656-3",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9656_intent_39903-3"
+        },
+        "variables": [
+          {
+            "title": "{variable}",
+            "variable": "step_115",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_345",
+            "data_type": "any"
+          },
+          {
+            "title": "What would you like to know about {variable}?",
+            "variable": "step_375",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_708",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_708_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_784",
+            "data_type": "any"
+          },
+          {
+            "title": "**GRAIN MOTHS** Grain moths are a group of insects that pose a s",
+            "variable": "step_842",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to ask a question about {variable}?",
+            "variable": "step_975",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_9656-3-2",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_784",
+            "output": {
+              "generic": [
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/4138445349/media/7322b6dd139c37c41eef9bdeec001b07",
+                  "alt_text": "Grain Borer",
+                  "description": "",
+                  "response_type": "image"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Grain Borers"
+                  },
+                  "skill_variable": "class"
+                },
+                {
+                  "value": {
+                    "scalar": "\"\"\"**General Grain Borer: Pervasive Crop Menace**  Grain borers, a group of pernicious pests, possess a remarkable ability to infiltrate various materials, ranging from fabrics and furniture to paper and, most importantly, seed kernels and grains. Two significant species, the Lesser Grain Borer and the Larger Grain Borer, typify the shared characteristics of these destructive insects.  **Distribution:** Originating in different parts of the world, grain borers have managed to spread their infestation across various regions.  **Bionomics:** Grain borers, such as the Lesser Grain Borer and the Larger Grain Borer, exhibit a small, cylindrical-shaped body, often colored dark brown or black. They are adept at boring into their chosen targets. These pests exhibit resilience and adaptability, with the Lesser Grain Borer armed with powerful jaws located beneath its thorax. Both larvae and adults of these species wreak havoc, causing serious damage in warmer climates compared to colder ones. Gravid females lay eggs in grains, and emerging larvae voraciously consume seeds. Transformation into pupae follows within the grains, eventually giving rise to adult beetles that exit through holes.  **Damage Symptoms:** The impact of grain borers is evident through the damage they cause. Infested grains suffer from complete hollowness within, leaving only a fragile outer shell. In larger grains, like maize, multiple beetles can inhabit a single kernel. The pests' flying ability enables easy migration from one storage area to another, exacerbating the infestation. Additionally, the infested grains emit a notable quantity of frass, leading to spoilage beyond their actual consumption.  In summary, grain borers represent a widespread threat to stored grains and crops. Their ability to infiltrate various materials and their destructive impact on agricultural products necessitate effective management strategies to preserve harvests and ensure food security.  Management Techniques: The most economical and efficient method of controlling this pest is the prevention of grain infestation.   •Clean grain storage facilities and the area around them before storing grain. • Monitor stored grain regularly for signs of heating or infestation. • Use probe traps and check regularly for insect infestations. • Clean grain handling equipment before using to prevent new infestations. • Aerate or turn the grain frequently to cool the stored grain and control or eliminate insect pests. Fan aeration is preferable if available. • Always store grain crops in cool, dry, clean uninfested bins that are weatherproof and well aerated to prevent losses, maintain quality and assure saleability.  Once they are distributed within the grain mass, fumigation is the only method of relieving the problem. The application of insecticides is the rapid control method for immediate results. However, Chemical control methods are not preferred due to their harmful impact on the environment. \"\"\""
+                  },
+                  "skill_variable": "class_info"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_784",
+            "next_step": "step_842"
+          },
+          {
+            "step": "step_842",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "**GRAIN BORERS**\n\nGrain borers represent a widespread threat to stored grains and crops. Their ability to infiltrate various materials and their destructive impact on agricultural products necessitate effective management strategies to preserve harvests and ensure food security."
+                          },
+                          {
+                            "scalar": "\n\n \n\n**Management Techniques:**\n\nThe most economical and efficient method of controlling grain borers is the **prevention of grain infestation.** \n\n \n\n**Clean grain storage facilities** and the area around them before storing grain. \n\n**Monitor stored grain regularly** for signs of heating or infestation. Use probe traps and check regularly for insect infestations."
+                          },
+                          {
+                            "scalar": "  \n\n**Clean grain handling equipment** before using to prevent new infestations. \n\n**Aerate or turn the grain frequently to cool the stored grain** and control or eliminate insect pests. Fan aeration is preferable if available. \n\n**Always store grain crops in cool, dry and clean bins** that are weatherproof and well aerated to prevent losses and maintain quality."
+                          },
+                          {
+                            "scalar": "\n\n \n\nOnce they are distributed within the grain mass, fumigation is the only method of relieving the problem. However, ***chemical control methods are not preferred due to their harmful impact on the environment.***"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_842",
+            "next_step": "step_975"
+          },
+          {
+            "step": "step_975",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to ask a question about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_975",
+            "next_step": "step_345"
+          },
+          {
+            "step": "step_345",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Thank you for using PestBot!"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_345",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_375"
+          },
+          {
+            "step": "step_375",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What would you like to know about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_375",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_708"
+          },
+          {
+            "step": "step_708",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_375"
+                  },
+                  "skill_variable": "model_prompt"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_25675-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_708_result_1"
+              }
+            },
+            "variable": "step_708",
+            "next_step": "step_115"
+          },
+          {
+            "step": "step_115",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": ""
+                          },
+                          {
+                            "skill_variable": "model_response"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "variable": "step_345"
+                },
+                {
+                  "variable": "step_375"
+                },
+                {
+                  "variable": "step_708"
+                }
+              ]
+            },
+            "variable": "step_115"
+          }
+        ],
+        "title": "grain borers",
+        "action": "action_9656-3-2",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9656_intent_39903-3-2"
+        },
+        "variables": [
+          {
+            "title": "{variable}",
+            "variable": "step_115",
+            "data_type": "any"
+          },
+          {
+            "title": "Thank you for using PestBot!",
+            "variable": "step_345",
+            "data_type": "any"
+          },
+          {
+            "title": "What would you like to know about {variable}?",
+            "variable": "step_375",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_708",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_708_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_784",
+            "data_type": "any"
+          },
+          {
+            "title": "**GRAIN BORERS** Grain borers represent a widespread threat to s",
+            "variable": "step_842",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to ask a question about {variable}?",
+            "variable": "step_975",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_9656-3-2-2",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_784",
+            "output": {
+              "generic": [
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/3070404884/media/b182ee4d06667716f4aa1b277e1a50d5",
+                  "alt_text": "Flour Moth",
+                  "description": "",
+                  "response_type": "image"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Flour Moths"
+                  },
+                  "skill_variable": "class"
+                },
+                {
+                  "value": {
+                    "scalar": "\"\"\"General Flour Moth: Distribution, Bionomics, and Damage Symptoms Flour moths are a common and serious group of pests that target stored grains, meals, and flours, causing significant damage to stored food products. Among the various species of flour moths, such as the Indian meal moth, Mediterranean flour moth, and meal snout moth, there are certain shared characteristics in terms of distribution, bionomics, and damage symptoms.  Distribution: Flour moths are widespread pests found all around the world, particularly in regions with temperate climates. They have adapted to various environments and are known for their ability to infest stored grains and food products in different geographical areas.  Bionomics: Flour moths have similar life cycle patterns. Female moths lay eggs on or near stored grains, meals, or flours, often in clusters. Once hatched, the larvae emerge and actively feed on the stored food products, causing contamination and degradation. These larvae may spin silken cocoons or webs for protection and transformation into pupae. The pupal stage is a transitional phase before adult moths emerge and continue the reproductive cycle.  Damage Symptoms: The presence of flour moths can lead to significant damage to stored grains and food products. The damage symptoms are often characterized by:  Webbing: Flour moths are known for creating dense silken webs or tubes within bins and storage areas. These webs can accumulate over time and lead to clogging of machinery and equipment used for processing.  Contamination: Larvae of flour moths actively feed on stored grains, flours, and meals, resulting in contamination and degradation of the food products. This can render the products unsuitable for consumption and processing.  Presence of Moths: Adult moths, often with distinct markings on their forewings, may be observed flying in and around storage areas. Their presence is an indicator of potential infestation.  Cocoons and Pupae: The appearance of silk cocoons or pupae is another indication of infestation. These structures are formed by the larvae as they transform into pupae and prepare for the next stage of their life cycle.  Preventing and managing infestations of flour moths involves implementing effective storage practices. This includes ensuring cleanliness and hygiene in storage facilities, using airtight containers, and regularly monitoring for signs of infestation such as the presence of larvae, cocoons, or moths.  In conclusion, flour moths are a group of pests that can cause significant damage to stored grains, meals, and flours. Their widespread distribution, shared bionomic traits, and common damage symptoms underscore the importance of proactive measures to protect stored food products from contamination and degradation. MANAGEMENT As with most grain- or flour-feeding pests, the most effective method of control is to adopt basic good sanitary practices. Clean all infested surfaces with white vinegar. Pest management professionals should be informed as soon as possible to identify the pest properly and to devise the best treatment to control the infestation of food grains. Before purchasing and after storage, stored grain containers should be thoroughly inspected for holes,rips, and other larvae or adult presence. One way to keep the moths away is to place bay leaves in the food containers along with the original grains. Products already affected should still be thrown away.It is essential to ensure that food storage areas are kept clean and tidy and that no residues are left over. Proper ventilation in storehouses to prevent moisture build-up is necessary. Make sure to thoroughly wipe, down, and dust storehouses and pantry areas. Chemical control methods are not preferred due to their harmful impact on the environment.\"\"\""
+                  },
+                  "skill_variable": "class_info"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_784",
+            "next_step": "step_842"
+          },
+          {
+            "step": "step_842",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "**FLOUR MOTHS**\n\nFlour moths are a common and serious group of pests that target stored grains, meals, and flours, causing significant damage to stored food products.\n\n<br />\n\n\n\n***Management Techniques***\n\nAs with most grain or flour feeding pests, the most effective method of control is to adopt basic **good sanitary practices.**\nClean all infested surfaces with white vinegar."
+                          },
+                          {
+                            "scalar": "\n\nPest management professionals should be informed as soon as possible to identify the pest properly and to devise the best treatment to control the infestation of food grains.\n\nBefore purchasing and after storage, stored grain containers should be thoroughly inspected for holes, rips, and other larvae or adult presence."
+                          },
+                          {
+                            "scalar": "\n\n<br />\n\n\n\nOne way to keep the moths away is to place **bay leaves** in the\nfood containers along with the original grains. Products already affected should still be thrown away. It is essential to ensure that food storage areas are kept clean and that no residues are left over. Proper ventilation\nin storehouses to prevent moisture build-up is necessary. **Make sure to\nthoroughly wipe, down,"
+                          },
+                          {
+                            "scalar": " and dust storehouses and pantry areas.**\n\n***Chemical control methods are not preferred due to their harmful impact on the environment.***"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_842",
+            "next_step": "step_975"
+          },
+          {
+            "step": "step_975",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to ask a question about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_975",
+            "next_step": "step_345"
+          },
+          {
+            "step": "step_345",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_345",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_375"
+          },
+          {
+            "step": "step_375",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What would you like to know about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_375",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_708"
+          },
+          {
+            "step": "step_708",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_375"
+                  },
+                  "skill_variable": "model_prompt"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_25675-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_708_result_1"
+              }
+            },
+            "variable": "step_708",
+            "next_step": "step_115"
+          },
+          {
+            "step": "step_115",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": ""
+                          },
+                          {
+                            "skill_variable": "model_response"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "variable": "step_345"
+                },
+                {
+                  "variable": "step_375"
+                },
+                {
+                  "variable": "step_708"
+                }
+              ]
+            },
+            "variable": "step_115"
+          }
+        ],
+        "title": "flour moths",
+        "action": "action_9656-3-2-2",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9656_intent_39903-3-2-2"
+        },
+        "variables": [
+          {
+            "title": "{variable}",
+            "variable": "step_115",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_345",
+            "data_type": "any"
+          },
+          {
+            "title": "What would you like to know about {variable}?",
+            "variable": "step_375",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_708",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_708_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_784",
+            "data_type": "any"
+          },
+          {
+            "title": "**FLOUR MOTHS** Flour moths are a common and serious group of pe",
+            "variable": "step_842",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to ask a question about {variable}?",
+            "variable": "step_975",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_9656-3-2-2-2",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_784",
+            "output": {
+              "generic": [
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/4062986457/media/fdc394c3ee41d5fa572df04803512c7c",
+                  "alt_text": "Mealworms",
+                  "description": "",
+                  "response_type": "image"
+                },
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/4091772591/media/52992600330a470040b0fc5036c7d9aa",
+                  "alt_text": "Mealworm",
+                  "description": "",
+                  "response_type": "image"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Mealworms"
+                  },
+                  "skill_variable": "class"
+                },
+                {
+                  "value": {
+                    "scalar": "\"\"\"  Mealworms are common pests belonging to the family Tenebrionidae, often found in stored grains, particularly corn. These dark brown to black beetles have larvae that are notable for their appearance, resembling an inch-long earthworm. Several species of mealworms are known to infest stored grain products. Here are some key characteristics that are common to most or all species of mealworms:  Distribution: Mealworms are cosmopolitan pests, meaning they are found all around the world. They thrive in various climates and are frequently encountered in stored grain environments. Bionomics: 1. **Lifecycle**: Mealworms undergo a complete metamorphosis, which includes egg, larval, pupal, and adult stages. Females of mealworm species lay eggs, usually around 300-500, which are bean-shaped and sticky, adhering to food materials. The larvae, which resemble elongated, cylindrical worms, are the most prominent stage. Larvae start as white, later turning yellow or blackish, and continue feeding and molting. Some larvae may hibernate during harsh conditions or continue feeding without pupating. Pupae develop from larvae, eventually giving rise to adult beetles.  2. **Feeding Habits**: Mealworm larvae are voracious feeders that consume a variety of decaying grains, milled cereals, moist foodstuffs, as well as dead insects. Their feeding activities can lead to significant damage to stored grains and food products.  Damage Symptoms: 1. **Larval Presence**: The presence of mealworm larvae, which resemble elongated, cylindrical and often white or blackish worms, is a clear indication of an infestation. These larvae can be found attached to or moving within food materials.  2. **Grain Quality**: Infested grains may show signs of quality deterioration due to the feeding and waste products of mealworm larvae. The appearance, taste, and odor of the stored products may be affected.  3. **Reduced Shelf Life**: The feeding activities of mealworm larvae can reduce the shelf life of stored grains and food products. Larvae create channels, holes, or tunnels in the grains, further compromising their quality. Overall, mealworms are significant pests of stored grains, capable of causing considerable damage if left unchecked. Taking proactive measures to prevent their infestations is essential for preserving the quality and quantity of stored food products. MANAGEMENT PRACTICES Prevention is the best strategy to avoid insect problems in stored grains.  Screening and fanning are the best methods for their removal from grain shipments.  Proper bin sanitation before introduction of new grain minimizes the need for pesticides. Good sanitation involves the removal of old grain and dust in and around the grain bin. This includes removal of old grain from corners, floors, and walls and grain that may have spilled on the exterior of the bin. Any grain remaining when a bin is emptied can harbor insect infestations which will move into the new grain. After the bin is cleaned, and all needed repairs have been made, the floor and wall surfaces both inside and outside the bin should be treated. Before grain is placed in a bin it should be screened to eliminate fine materials and broken kernels. Grain placed in a clean bin should be checked at two week intervals during warm months and at one month intervals during cooler months for the presence of hot spots, moldy areas, and live insects. If any of these conditions exist, the grain should be aerated to lower the moisture level and temperature. Grain that is to be stored for longer than six months may need a protective application of an approved insecticide. Treatments can be applied as the grain is placed into the bin using a metering device calibrated to apply the proper amounts. After the grain is binned and leveled, a surface dressing can be applied to prevent insects from entering the grain on the surface. If infestation occurs in spite of these precautions, fumigation of the grain will be necessary. As chemical control methods are not preferred due to their harmful impact on the environment,contacting experts for pest solutions at the first sign of an infestation is an effective way to protect food items from mealworms. \"\"\""
+                  },
+                  "skill_variable": "class_info"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_784",
+            "next_step": "step_842"
+          },
+          {
+            "step": "step_842",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "**MEALWORMS**\n\nMealworms are common pests often found in stored grains, particularly corn. Because mealworms are entirely external feeders upon grains, they are not serious pests. The majority of the damage is largely limited to contamination of the products by the worms and their waste products."
+                          },
+                          {
+                            "scalar": "\n\n<br />\n\n\n\n***Management Techniques***\n\nPrevention is the best strategy to avoid insect problems in stored grains. \n\n<br />\n\n\n\n**Screening and fanning** are the best methods for their removal from grain shipments.\n\n \n\n**Proper bin sanitation before introduction of new grain minimizes the need for pesticides.** Good sanitation involves the removal of old grain and dust in and around the grain bin."
+                          },
+                          {
+                            "scalar": " This includes removal of old grain from corners, floors, and walls and grain that may have spilled on the exterior of the bin. Any grain remaining when a bin is emptied can harbor insect infestations which will move into the new grain.\n\n\n**Before grain is placed in a bin it should be screened** to eliminate fine materials and broken kernels."
+                          },
+                          {
+                            "scalar": " \n\nGrain placed in a clean bin should be **checked at two week intervals** during warm months and at one month intervals during cooler months for the presence of hot spots, moldy areas, and live insects. If any of these conditions exist, the **grain should be aerated to lower the moisture level and temperature."
+                          },
+                          {
+                            "scalar": "**\n\nGrain that is to be stored for longer than six months may need a protective application of an approved insecticide. Treatments can be applied as the grain is placed into the bin using a metering device calibrated to apply the proper amounts. After the grain is binned and leveled, a surface dressing can be applied to prevent insects from entering the grain on the surface."
+                          },
+                          {
+                            "scalar": "\n\nIf infestation occurs in spite of these precautions, fumigation of the grain will be necessary. Contact experts for pest solutions at the first sign of an infestation to protect food grains from mealworms. ***Chemical control methods are not preferred due to their harmful impact on the environment***"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_842",
+            "next_step": "step_975"
+          },
+          {
+            "step": "step_975",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to ask a question about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_975",
+            "next_step": "step_345"
+          },
+          {
+            "step": "step_345",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_345",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_375"
+          },
+          {
+            "step": "step_375",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What would you like to know about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_375",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_708"
+          },
+          {
+            "step": "step_708",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_375"
+                  },
+                  "skill_variable": "model_prompt"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_25675-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_708_result_1"
+              }
+            },
+            "variable": "step_708",
+            "next_step": "step_115"
+          },
+          {
+            "step": "step_115",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": ""
+                          },
+                          {
+                            "skill_variable": "model_response"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "variable": "step_345"
+                },
+                {
+                  "variable": "step_375"
+                },
+                {
+                  "variable": "step_708"
+                }
+              ]
+            },
+            "variable": "step_115"
+          }
+        ],
+        "title": "mealworms",
+        "action": "action_9656-3-2-2-2",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9656_intent_39903-3-2-2-2"
+        },
+        "variables": [
+          {
+            "title": "{variable}",
+            "variable": "step_115",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_345",
+            "data_type": "any"
+          },
+          {
+            "title": "What would you like to know about {variable}?",
+            "variable": "step_375",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_708",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_708_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_784",
+            "data_type": "any"
+          },
+          {
+            "title": "**MEALWORMS** Mealworms are common pests often found in stored g",
+            "variable": "step_842",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to ask a question about {variable}?",
+            "variable": "step_975",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "action_9656-3-2-2-2-2",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_784",
+            "output": {
+              "generic": [
+                {
+                  "title": "",
+                  "source": "https://api.gbif.org/v1/image/cache/fit-in/500x/occurrence/4029097772/media/2c2dd0c1033caee36aaa11ee3de67d7e",
+                  "alt_text": "Rodents",
+                  "description": "",
+                  "response_type": "image"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "scalar": "Rodents"
+                  },
+                  "skill_variable": "class"
+                },
+                {
+                  "value": {
+                    "scalar": "\"\"\"Rodent Rodents are troublesome pests that pose significant challenges in the storage and preservation of various products. These creatures not only consume grains but also introduce contamination, including feces, urine, and hair, into their diet. Their persistent attacks can lead to substantial losses, with stored products experiencing up to a 34% reduction in quantity over time. Some of the most common rodent species that affect stored goods include the following:  Black Rat/House Rat/Blue Rat/Bush Rat/Roof Rat - Rattus rattus Norway Rat/Brown Rat/Common Rat/Water Rat/Sewer Rat - Rattus norvegicus House Mouse/Field Mouse - Mus musculus Indian Mole Rat/Lesser Bandicoot Rat - Bandicota bengalensis Key Characteristics of Rodents:  High Breeding Rate: Rodents reproduce rapidly, contributing to their population growth and infestation potential. Color Blindness: Rodents have limited color perception and rely more on other senses for navigation and survival. Enhanced Senses: Rodents possess well-developed hearing, smell, touch, and taste, which aid in their exploration and foraging activities. Biting Behavior: Rodents have a strong tendency to gnaw, which helps them access food and maintain the sharpness of their large gnawing teeth. They gnaw at a rate of approximately 5 inches per year. Exploratory Nature: Rodents exhibit keen learning abilities and explore their environments thoroughly, often expanding their territories. Damage Caused by Rodents:  Feeding Damage: Rats, for instance, consume a significant portion of their body weight daily as food (7-15%). This feeding behavior not only diminishes the nutritional value of stored products but also hampers seed germination. Storage Contamination and Spoilage: Rodents contaminate stored goods with urine, feces, hair, and pathogens. The resulting contamination and spoilage can account for up to a 20% loss in stored products' value. Infected items are often rendered unsuitable for human consumption. Disease Transmission: Rodents are vectors for numerous diseases, with around 50 diseases capable of being transmitted from rodents to humans. Examples include leptospirosis, typhus, trichinella, scabies, epidemics, and Ebola hemorrhagic fever. Notably, up to 30% of brown rats carry leptospirosis and excrete it in their urine.  Rodent Management Practices  Rodents can pose significant threats to stored goods and health due to their feeding habits and potential for disease transmission. Effective rodent management involves a combination of hygiene, exclusion, and control measures to minimize infestations. Here are some key practices to consider: Management Techniques 1. Hygiene: - Maintain cleanliness in the outdoor and surrounding areas to discourage rodents from seeking shelter near storage facilities.- Trim bushes and weeds, and regularly mow grass to reduce rodent hiding spots.- Ensure proper drainage and remove trash cans from the vicinity.- Avoid discarding equipment or boxes around the building to prevent rodent attractions.- Keep the interior of the building clean by regularly cleaning walls, floors, and corners.- Promptly remove waste products and debris after operations.- Stack sacks on pallets to reduce hiding areas for rodents.- Maintain a minimum distance of 75 cm between walls and chimneys to hinder rodent movement.- Paint walls in bright colors to minimize dark corners where rodents may prefer to hide. 2. Exclusion:- Construct exterior walls with rodent-resistant materials that cannot be chewed.- Create a 12-meter pavement perimeter around the building to prevent mice from burrowing underneath.- Install a wide rat screen at a height of 11.5 meters around the building to prevent rodent entry. Use steel doors and window frames, ensuring they are properly mounted to eliminate gaps.- Keep boards, bags, and other items from touching the exterior walls to prevent rodents from jumping over screens. 3. Extermination:- Utilize various types of rat traps to catch rodents effectively.- Consider using sonic and ultrasonic repellents to deter rodents.Chemical control methods are not preferred due to their harmful impact on the environment.\"\"\""
+                  },
+                  "skill_variable": "class_info"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_784",
+            "next_step": "step_842"
+          },
+          {
+            "step": "step_842",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "**RODENTS**\n\nRodents can pose significant threats to stored goods and health due to their feeding habits and potential for disease transmission. Effective rodent management involves a combination of hygiene, exclusion, and control measures to minimize infestations.\n\n<br />\n\n\n\n***Management Techniques***\n\n<br />\n\n\n\n*1. Hygiene:*\n\n\n  -"
+                          },
+                          {
+                            "scalar": " Maintain cleanliness in the outdoor and surrounding areas to discourage rodents from seeking shelter near storage facilities.\n  - Trim bushes and weeds, and regularly mow grass to reduce rodent hiding spots.\n  - Ensure proper drainage and remove trash cans from the vicinity.\n  - Avoid discarding equipment or boxes around the building to prevent rodent attractions.\n  -"
+                          },
+                          {
+                            "scalar": " Keep the interior of the building clean by regularly cleaning walls, floors, and corners.\n  - Promptly remove waste products and debris after operations.\n  - Stack sacks on pallets to reduce hiding areas for rodents.\n  - Maintain a minimum distance of 75 cm between walls and chimneys to hinder rodent movement.\n  -"
+                          },
+                          {
+                            "scalar": " Paint walls in bright colors to minimize dark corners where rodents may prefer to hide.\n\n<br />\n\n\n\n*2. Exclusion:*\n\n\n  - Construct exterior walls with rodent-resistant materials that cannot be chewed.\n  - Create a 12-meter pavement perimeter around the building to prevent mice from burrowing underneath.\n  - Install a wide rat screen at a height of 11."
+                          },
+                          {
+                            "scalar": "5 meters around the building to prevent rodent entry. Use steel doors and window frames, ensuring they are properly mounted to eliminate gaps.\n  - Keep boards, bags, and other items from touching the exterior walls to prevent rodents from jumping over screens."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "*3. Extermination:*\n\n\n  - Utilize various types of rat traps to catch rodents effectively.\n  - Consider using sonic and ultrasonic repellents to deter rodents.\n\n***Chemical control methods are not preferred due to their harmful impact on the environment.***"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_842",
+            "next_step": "step_975"
+          },
+          {
+            "step": "step_975",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Would you like to ask a question about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_975",
+            "next_step": "step_345"
+          },
+          {
+            "step": "step_345",
+            "output": {
+              "generic": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_345",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "no"
+                }
+              ]
+            },
+            "next_step": "step_375"
+          },
+          {
+            "step": "step_375",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "What would you like to know about "
+                          },
+                          {
+                            "skill_variable": "class"
+                          },
+                          {
+                            "scalar": "?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "question": {
+              "free_text": true,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_375",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_708"
+          },
+          {
+            "step": "step_708",
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "variable": "step_375"
+                  },
+                  "skill_variable": "model_prompt"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action",
+              "invoke_action": {
+                "action": "action_25675-2",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_708_result_1"
+              }
+            },
+            "variable": "step_708",
+            "next_step": "step_115"
+          },
+          {
+            "step": "step_115",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": ""
+                          },
+                          {
+                            "skill_variable": "model_response"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_975"
+                },
+                {
+                  "variable": "step_345"
+                },
+                {
+                  "variable": "step_375"
+                },
+                {
+                  "variable": "step_708"
+                }
+              ]
+            },
+            "variable": "step_115"
+          }
+        ],
+        "title": "rodents",
+        "action": "action_9656-3-2-2-2-2",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": "action_9656_intent_39903-3-2-2-2-2"
+        },
+        "variables": [
+          {
+            "title": "{variable}",
+            "variable": "step_115",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_345",
+            "data_type": "any"
+          },
+          {
+            "title": "What would you like to know about {variable}?",
+            "variable": "step_375",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "variable": "step_708",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_708_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "",
+            "variable": "step_784",
+            "data_type": "any"
+          },
+          {
+            "title": "**RODENTS** Rodents can pose significant threats to stored goods",
+            "variable": "step_842",
+            "data_type": "any"
+          },
+          {
+            "title": "Would you like to ask a question about {variable}?",
+            "variable": "step_975",
+            "data_type": "yes_no"
+          }
+        ],
+        "launch_mode": "learning",
+        "next_action": "fallback",
+        "topic_switch": {
+          "allowed_from": true,
+          "allowed_into": true,
+          "never_return": false
+        },
+        "disambiguation_opt_out": false
+      },
+      {
+        "steps": [
+          {
+            "step": "step_001",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I'm afraid I don't understand. Please rephrase your question."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_001",
+            "condition": {
+              "lte": [
+                {
+                  "system_variable": "no_action_matches_count"
+                },
+                {
+                  "scalar": 3
+                }
+              ]
+            },
+            "next_step": "step_002"
+          },
+          {
+            "step": "step_002",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I'm sorry, I'm afraid I am unable to help you with that."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "step_002",
+            "condition": {
+              "gt": [
+                {
+                  "system_variable": "no_action_matches_count"
+                },
+                {
+                  "scalar": 3
+                }
+              ]
+            }
+          }
+        ],
+        "title": "No action matches",
+        "action": "anything_else",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "expression": "anything_else"
+        },
+        "variables": [
+          {
+            "title": "I'm afraid I don't understand. Please rephrase your question.",
+            "variable": "step_001",
+            "data_type": "any"
+          },
+          {
+            "title": "I'm sorry, I'm afraid I am unable to help you with that.",
+            "variable": "step_002",
+            "data_type": "any"
+          }
+        ],
+        "disambiguation_opt_out": true
+      },
+      {
+        "steps": [
+          {
+            "step": "digression_failure",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text": "Sorry I couldn't confirm if you wanted to return to previous topic, let me connect to an agent."
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "connect_to_agent",
+              "response": {
+                "transfer_info": {
+                  "target": {}
+                },
+                "agent_available": {
+                  "message": "Let's send you to an available agent."
+                },
+                "agent_unavailable": {
+                  "message": "There are no agents available at this time. When one becomes available, we'll connect you."
+                },
+                "message_to_human_agent": ""
+              }
+            },
+            "variable": "digression_failure",
+            "condition": {
+              "eq": [
+                {
+                  "system_variable": "fallback_reason"
+                },
+                {
+                  "scalar": "Failed to confirm topic return"
+                }
+              ]
+            },
+            "next_step": "step_155"
+          },
+          {
+            "step": "step_155",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "I'm sorry, I am unable to answer your question."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_155"
+          }
+        ],
+        "title": "Fallback",
+        "action": "fallback",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "intent": null
+        },
+        "variables": [
+          {
+            "title": "Failure to topic return",
+            "variable": "digression_failure",
+            "data_type": "any"
+          },
+          {
+            "title": "I'm sorry, I am unable to answer your question.",
+            "variable": "step_155",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "run_always",
+        "disambiguation_opt_out": true
+      },
+      {
+        "steps": [
+          {
+            "step": "danger_word_detected",
+            "title": "Connect to agent",
+            "handlers": [],
+            "resolver": {
+              "type": "fallback"
+            },
+            "variable": "danger_word_detected_variable",
+            "condition": {
+              "entity": "danger_words"
+            },
+            "next_step": "profanity_detected"
+          },
+          {
+            "step": "profanity_detected",
+            "title": "Show warning",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Please use appropriate language when interacting with the assistant."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "max_hits",
+                "handler": "max_hits_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "max_hits": 2,
+            "resolver": {
+              "type": "end_action"
+            },
+            "variable": "profanity_detected_variable",
+            "condition": {
+              "entity": "profane_words"
+            }
+          }
+        ],
+        "title": "Trigger word detected",
+        "action": "run_always",
+        "boosts": [],
+        "handlers": [],
+        "variables": [
+          {
+            "title": "Profanity detected",
+            "variable": "danger_word_detected_variable",
+            "data_type": "any"
+          },
+          {
+            "title": "Profane word detected",
+            "variable": "profanity_detected_variable",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "anything_else"
+      },
+      {
+        "steps": [
+          {
+            "step": "step_459",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Welcome to PestBot!\n\nI am a personal assistant designed to help you implement sustainable stored grain pest management techniques in your storehouses and granaries."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "invoke_another_action_and_end",
+              "invoke_action": {
+                "action": "action_42066",
+                "policy": "default",
+                "parameters": null,
+                "result_variable": "step_459_result_1"
+              }
+            },
+            "variable": "step_459"
+          }
+        ],
+        "title": "Greet customer",
+        "action": "welcome",
+        "boosts": [],
+        "handlers": [],
+        "condition": {
+          "expression": "welcome"
+        },
+        "variables": [
+          {
+            "title": "Welcome to PestBot! I am a personal assistant designed to help y",
+            "variable": "step_459",
+            "data_type": "any"
+          },
+          {
+            "variable": "step_459_result_1",
+            "data_type": "any"
+          }
+        ],
+        "next_action": "action_42066",
+        "disambiguation_opt_out": true
+      }
+    ],
+    "intents": [
+      {
+        "intent": "action_25675_intent_42103-2",
+        "examples": []
+      },
+      {
+        "intent": "action_42066_intent_10436",
+        "examples": [
+          {
+            "text": "I want to know more about a different species"
+          },
+          {
+            "text": "I would like to ask another question"
+          }
+        ]
+      },
+      {
+        "intent": "action_9656_intent_39903",
+        "examples": [
+          {
+            "text": "Grain weevils"
+          },
+          {
+            "text": "I would like to know more about grain weevils"
+          },
+          {
+            "text": "weevils"
+          },
+          {
+            "text": "What are the management practices for grain weevils?"
+          }
+        ]
+      },
+      {
+        "intent": "action_9656_intent_39903-2",
+        "examples": [
+          {
+            "text": "grain and flour beetles"
+          },
+          {
+            "text": "I would like to know more about beetles."
+          },
+          {
+            "text": "What are the management practices for grain and flour beetles?"
+          }
+        ]
+      },
+      {
+        "intent": "action_9656_intent_39903-3",
+        "examples": [
+          {
+            "text": "Grain moths"
+          },
+          {
+            "text": "I would like to know more about grain moths."
+          },
+          {
+            "text": "What are the management practices for grain moths?"
+          }
+        ]
+      },
+      {
+        "intent": "action_9656_intent_39903-3-2",
+        "examples": [
+          {
+            "text": "Grain Borers"
+          },
+          {
+            "text": "I would like to know more about grain borers"
+          },
+          {
+            "text": "What are the management practices for grain borers?"
+          }
+        ]
+      },
+      {
+        "intent": "action_9656_intent_39903-3-2-2",
+        "examples": [
+          {
+            "text": "flour moths"
+          },
+          {
+            "text": "I would like to know more about flour moths."
+          },
+          {
+            "text": "What are the management practices for flour moths?"
+          }
+        ]
+      },
+      {
+        "intent": "action_9656_intent_39903-3-2-2-2",
+        "examples": [
+          {
+            "text": "Mealworm"
+          },
+          {
+            "text": "mealworms"
+          },
+          {
+            "text": "What are the management practices for mealworms?"
+          }
+        ]
+      },
+      {
+        "intent": "action_9656_intent_39903-3-2-2-2-2",
+        "examples": [
+          {
+            "text": "I would like to know more about rodents"
+          },
+          {
+            "text": "mice"
+          },
+          {
+            "text": "mouse"
+          },
+          {
+            "text": "rats"
+          },
+          {
+            "text": "rodent"
+          },
+          {
+            "text": "rodents"
+          },
+          {
+            "text": "What are the management practices for rodents?"
+          }
+        ]
+      },
+      {
+        "intent": "fallback_connect_to_agent",
+        "examples": [],
+        "description": "Please transfer me to an agent"
+      }
+    ],
+    "entities": [
+      {
+        "entity": "danger_words",
+        "values": [],
+        "fuzzy_match": false
+      },
+      {
+        "entity": "entity_9870",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Flour Moths",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Grain and Flour Beetles",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Grain Borers",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Grain Moths",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Grain Weevils",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Mealworms",
+            "synonyms": []
+          },
+          {
+            "type": "synonyms",
+            "value": "Rodents",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "profane_words",
+        "values": [],
+        "fuzzy_match": false
+      },
+      {
+        "entity": "sys-number",
+        "values": []
+      },
+      {
+        "entity": "sys-yes-no",
+        "values": []
+      }
+    ],
+    "metadata": {
+      "api_version": {
+        "major_version": "v2",
+        "minor_version": "2018-11-08"
+      }
+    },
+    "variables": [
+      {
+        "title": "class",
+        "variable": "class",
+        "data_type": "string",
+        "description": "",
+        "initial_value": {
+          "scalar": "pestbot"
+        }
+      },
+      {
+        "title": "class_info",
+        "variable": "class_info",
+        "data_type": "string",
+        "description": "Class specific information to guide the model's response"
+      },
+      {
+        "title": "messages",
+        "variable": "messages",
+        "data_type": "any",
+        "description": ""
+      },
+      {
+        "title": "model_for_chat",
+        "variable": "model_for_chat",
+        "data_type": "string",
+        "description": "",
+        "initial_value": {
+          "scalar": "gpt-3.5-turbo"
+        }
+      },
+      {
+        "title": "model_for_completions",
+        "variable": "model_for_completions",
+        "data_type": "string",
+        "description": "",
+        "initial_value": {
+          "scalar": "text-davinci-003"
+        }
+      },
+      {
+        "title": "model_max_tokens",
+        "variable": "model_max_tokens",
+        "data_type": "number",
+        "description": "",
+        "initial_value": {
+          "scalar": 200
+        }
+      },
+      {
+        "title": "model_prompt",
+        "variable": "model_prompt",
+        "data_type": "string",
+        "description": ""
+      },
+      {
+        "title": "model_response",
+        "variable": "model_response",
+        "data_type": "string",
+        "description": ""
+      },
+      {
+        "title": "pestbot_goodbye",
+        "variable": "pestbot_goodbye",
+        "data_type": "string",
+        "description": "",
+        "initial_value": {
+          "scalar": "Thank you for using PestBot. Have a great day!"
+        }
+      }
+    ],
+    "data_types": [],
+    "collections": [],
+    "counterexamples": [],
+    "system_settings": {
+      "nlp": {
+        "model": "latest"
+      },
+      "variable": {
+        "format": {
+          "time": {
+            "pattern": "short"
+          },
+          "currency": {
+            "fraction_digits": 2
+          }
+        }
+      },
+      "off_topic": {
+        "enabled": true
+      },
+      "launch_mode": {
+        "default": "learning",
+        "enabled": false,
+        "learning": {
+          "step_retry_threshold": 1,
+          "use_connect_to_support": "more_often",
+          "single_answer_clarification": "more_often",
+          "disambiguation_clarification": "more_often"
+        },
+        "confident": {
+          "step_retry_threshold": 3,
+          "use_connect_to_support": "sometimes",
+          "single_answer_clarification": "sometimes",
+          "disambiguation_clarification": "sometimes"
+        }
+      },
+      "topic_switch": {
+        "enabled": true,
+        "messages": {
+          "enable_confirmation": true,
+          "confirmation_failure": {
+            "generic": [
+              {
+                "values": [
+                  {
+                    "text_expression": {
+                      "concat": [
+                        {
+                          "scalar": "I'm sorry, I did not catch that, please confirm."
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "response_type": "text",
+                "selection_policy": "sequential"
+              }
+            ]
+          },
+          "confirmation_request": {
+            "generic": [
+              {
+                "values": [
+                  {
+                    "text_expression": {
+                      "concat": [
+                        {
+                          "scalar": "Do you want to continue with the previous topic: "
+                        },
+                        {
+                          "system_variable": "digressed_from"
+                        },
+                        {
+                          "scalar": "?"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "response_type": "text",
+                "selection_policy": "sequential"
+              },
+              {
+                "options": [
+                  {
+                    "label": "Yes",
+                    "value": {
+                      "input": {
+                        "text": "Yes"
+                      }
+                    }
+                  },
+                  {
+                    "label": "No",
+                    "value": {
+                      "input": {
+                        "text": "No"
+                      }
+                    }
+                  }
+                ],
+                "response_type": "option",
+                "repeat_on_reprompt": true
+              }
+            ]
+          }
+        },
+        "max_tries": 3
+      },
+      "disambiguation": {
+        "prompt": "Did you mean:",
+        "enabled": true,
+        "randomize": true,
+        "max_suggestions": 5,
+        "suggestion_text_policy": "title",
+        "none_of_the_above_prompt": "",
+        "use_connect_to_support_prompt": "connect to support",
+        "single_answer_clarification_prompt": "Something else"
+      },
+      "spelling_auto_correct": true
+    },
+    "learning_opt_out": false
+  },
+  "description": "created for assistant 05c10d7d-336f-4d33-8cb3-5c53520d61ce",
+  "assistant_id": "4b3b1e10-5dda-4dbc-a5ac-af686925c03d",
+  "workspace_id": "8c524ddb-f0a3-452b-aba8-894ca834708c",
+  "dialog_settings": {},
+  "next_snapshot_version": "5"
+}
