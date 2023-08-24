@@ -43,11 +43,22 @@
         {
           "photosPermission": "Allow $(PRODUCT_NAME) to access your gallery."
         }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic" : true
+          }
+        }
       ]
     ],
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "4ac96e78-8382-48c5-ab24-74c7f4de7a60"
       }
     }
   }
