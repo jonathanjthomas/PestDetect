@@ -80,7 +80,7 @@ The Deployment of the Backend service is done using the IBM Cloud CLI, Docker CL
 
 Diagram and step-by-step description of the flow of our solution:
 
-![Video transcription/translaftion app](https://github.com/jonathanjthomas/PestDetect/blob/d3513101ff47e6a85bd1bfc7dd9553be37cf3012/images/Model_Architecture.jpg)
+![Video transcription/translaftion app](https://github.com/jonathanjthomas/PestDetect/blob/e50aa4f5dcac5dcd3b1a14f9b0ef7d9ed69aa4b5/images/Model_ArchitectureV2.jpg)
 
 1. The user navigates to the PestSnap module of the app.
 2. User uploads the image through the PestSnap module and it is sent to a Flask web app that is deployed to the IBM Kubernetes service.
