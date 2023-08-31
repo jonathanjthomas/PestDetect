@@ -40,7 +40,7 @@ Food insecurity is a present day crisis. Stored grain pests - accounting for 9% 
 
 Our solution? - PestDetect! PestDetect is a mobile application that places the key to overcoming stored grain pest infestations into the hands of farmers - literally! With the frontend created using Expo React Native, PestDetect is a simple-to-use, seamless and deployment-ready application that provides two basic functionalities to farmers - PestSnap and PestBot. In PestSnap, farmers can either take or upload a photo of a stored grain pest they have found in their grainary or storage area during one of their routine checks. Once they have cropped the photo, it is sent for predicition to an Image Classification model that is deployed on Watson Machine Learning, through a Flask Web App deployed on IBM Cloud Kubernetes. The [model](./backend/pestdetect_model/PEST-DETECT-V7.51.h5) is trained on 7000 images for 7 classes of pests - Grain Moths, Grain Borers, Grain Weevils, Grain & Flour Beetles, Flour Moths, Mealworms and Rodents - by fine-tuning and adding to the prebuilt MobileNetV3 model. Based on the features it analyses from the image, it predicts and returns to the app the most probable category the pest in the image falls under. 
 
-This prediction received by the app is sent to the Watson Assistant Chatbot we have created ([actions of the chatbot](./backend/Watson_Assistant/PestBot-action.json)). The chatbot (utilising the New action-based Watson Assistant) has actions to respond to a prediction of one of the seven pest categories, with suitable sustainable management techniques that promote prevention rather than extermination. The responses of the chatbot have been prepared using the latest research in the field of pest grain management ([Ahmad R, Hassan S, Ahmad S, et al. (2022) Stored Grain Pests and Current Advances for Their Management. Postharvest Technology - Recent Advances, New Perspectives and Applications. IntechOpen. DOI: 10.5772/intechopen.101503.](https://www.intechopen.com/chapters/79822)). However, the average farmer may require some additional clarity on some of the pest prevention and management techniques initially provided to them by the chatbot. In order to address the innumerable number of queries a farmer may have, we have empowered our chatbot using one of IBM's newest development WatsonX. By building a custom extension, we call the watsonx foundation model and supply it the following:
+This prediction received by the app is sent to the Watson Assistant Chatbot we have created ([actions of the chatbot](./backend/Watson_Assistant/PestBot-action.json)). The chatbot (utilising the new action-based Watson Assistant) has actions to respond to a prediction of one of the seven pest categories, with suitable sustainable management techniques that promote prevention rather than extermination. The responses of the chatbot have been prepared using the latest research in the field of pest grain management ([Ahmad R, Hassan S, Ahmad S, et al. (2022) Stored Grain Pests and Current Advances for Their Management. Postharvest Technology - Recent Advances, New Perspectives and Applications. IntechOpen. DOI: 10.5772/intechopen.101503.](https://www.intechopen.com/chapters/79822)). However, the average farmer may require some additional clarity on some of the pest prevention and management techniques initially provided to them by the chatbot. In order to address the innumerable number of queries a farmer may have, we have empowered our chatbot using OpenAIs gpt-3.5-turbo model (to be replaced by an LLM from watsonx in the future). By building a custom extension, we call the model and supply it the following:
  - a set of system instructions that explain how to respond to the farmer in a simple and comprehensible manner. We also instruct it to respond with a 'Sorry, that question is beyond my current scope' message when it is asked a question that is either irrelevant to the pest or unknown to it
  - background information about the specific pest category to provide context and guide its response 
  - the user's query
@@ -59,7 +59,7 @@ More detail is available in our [description document](./docs/DESCRIPTION.md).
 
 - [Watson Machine Learning](https://github.com/jonathanjthomas/PestDetect/blob/1bf09b14c0ea3b37424520a868939aee46b936b6/backend/Flask_Backend/app.py) - The Watson Machine Learning service is used to deploy the Image Classification Machine Learning model, used in the backend service of the app. The model has been trained on a dataset of 7000 images of several pest categories. The model was then uploaded to the IBM Cloud Object Storage. Model inferences for the app are now run in Watson Machine Learning. 
 
-- [Watson Assistant](https://github.com/jonathanjthomas/PestDetect/blob/93662c062d354c5c05cca92d9e54ff3ba745cf1e/backend/Nignx_Backend/Web/index.html) - Watson Assistant is used in both the PestSnap and PestBot feature of the app to serve as a chatbot farmer to recommend to them sustainable pest prevention and management techniques, based on different categories of pests . The initial set of management and prevention practices recommended to the user by Watson Assistant is provided through the set of predefined actions for each pest category. Follow up questions are then handled by calling the watsonx foundation model. A set of system instructions, information about the pest and the user's question are sent through the API, and the response is provided to the user through the Watson Assistant Interface.
+- [Watson Assistant](https://github.com/jonathanjthomas/PestDetect/blob/93662c062d354c5c05cca92d9e54ff3ba745cf1e/backend/Nignx_Backend/Web/index.html) - Watson Assistant is used in both the PestSnap and PestBot feature of the app to serve as a chatbot farmer to recommend to them sustainable pest prevention and management techniques, based on different categories of pests . The initial set of management and prevention practices recommended to the user by Watson Assistant is provided through the set of predefined actions for each pest category. Follow up questions are then handled by invoking the gpt-3.5-turbo model. A set of system instructions, information about the pest and the user's question are sent through its API, and the response is provided to the user through the Watson Assistant Interface.
 
 - Watson Studio - The Image classification model is uploaded as an asset and deployed using the Watson Studio Deployments service on an extra small CPU and 2 GB RAM Instance.
 
@@ -88,13 +88,13 @@ Diagram and step-by-step description of the flow of our solution:
 4. The Machine learning model prediction is received by the PestBot module.
 5. The received prediction is sent to the NGINX server that is deployed to the IBM Kubernetes service by the app.
 6. The IBM Watson Assistant web chat lists the sustainable management practices for the identified pest.
-7. The Watson Assistant chatbot is integrated with the watsonx foundation model using a custom extension to answer a wide variety of follow-up questions from the farmer.
+7. The Watson Assistant chatbot is integrated with the gpt-3.5-turbo model using a custom extension to answer a wide variety of follow-up questions from the farmer.
 
 ## Presentation materials
 
 ### Solution demo video
 
-[Watch the video](https://youtu.be/T_OGQxEcOj4)
+[Watch the video](https://www.youtube.com/watch?v=8auvfXbmXFA)
 
 ### Project development roadmap
 
@@ -103,7 +103,7 @@ The project currently does the following things.
 - PestSnap - Snap or use an image from gallery to identify a stored grain pest and receive targeted sustainable prevention and management techniques 
 - PestBot - Chat with Pest Bot to get more information about stored grain pests
 
-In the future we plan to increase accessibility by adding more languages, integrating a voice reader to support illiterate farmers, and making region specific predictions and recommendations to the farmers
+In the future we plan to increase accessibility by adding more languages, integrating a voice reader to support illiterate farmers, and making region specific predictions and recommendations to the farmers. We will also replace the gpt-3.5-turbo model with an LLM from watsonx to improve recommendations and be even more cost-effective.
 
 See below for our proposed schedule on next steps after Call for Code 2023 submission.
 
