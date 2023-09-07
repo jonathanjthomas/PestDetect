@@ -19,9 +19,9 @@
   
 
     window.watsonAssistantChatOptions = {
-      integrationID: "1ee408dc-0250-446a-a604-6598fad37d6b", // The ID of this integration.
-      region: "eu-gb", // The region your integration is hosted in.
-      serviceInstanceID: "f935666d-73c8-4fd9-99c3-5340ae71760e", // The ID of your service instance.
+      integrationID: "{{integrationID}}", // The ID of this integration.
+      region: "{{region}}", // The region your integration is hosted in.
+      serviceInstanceID: "{{serviceInstanceID}}", // The ID of your service instance.
       onLoad: function (instance) {
         instance.render();
         window.WebChatInstance = instance;
