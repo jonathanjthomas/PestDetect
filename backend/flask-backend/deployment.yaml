@@ -1,0 +1,49 @@
+# This file is used to deploy the backend application on kubernetes cluster
+
+# Deployment config
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: watson-ml-deployment
+  labels:
+    app: flask
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask
+  template:
+    metadata:
+      labels:
+        app: flask
+    spec:
+      containers:
+        - name: flask
+          image: siddh13/flask_ibm_app:v2
+          ports:
+          - containerPort: 5000
+          env:
+          - name: API_KEY
+            valueFrom:
+              configMapKeyRef:
+                name: watson-ml-config
+                key: API_KEY
+          - name: ENDPOINT
+            valueFrom:
+              configMapKeyRef:
+                name: watson-ml-config
+                key: ENDPOINT
+---
+# Service config
+apiVersion: v1
+kind: Service
+metadata:
+  name: watson-ml-service
+spec:
+  selector:
+    app: flask
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: LoadBalancer
