@@ -1,0 +1,54 @@
+# This file is used to deploy the backend application on kubernetes cluster
+
+# Deployment config
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: watson-assistant-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: siddh13/wabackend:v2
+        ports:
+        - containerPort: 80
+        env:
+        - name: integrationID
+          valueFrom:
+            configMapKeyRef:
+              name: watson-assistant-config
+              key: integrationID
+        - name: region
+          valueFrom:
+            configMapKeyRef:
+              name: watson-assistant-config
+              key: region
+        - name: serviceInstanceID
+          valueFrom:
+            configMapKeyRef:
+              name: watson-assistant-config
+              key: serviceInstanceID
+---
+# Service config
+apiVersion: v1
+kind: Service
+metadata:
+  name: watson-assitant-service
+spec:
+  selector:
+    app: nginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
